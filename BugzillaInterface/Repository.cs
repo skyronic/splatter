@@ -28,6 +28,9 @@
 using System;
 using CookComputing.XmlRpc;
 using System.Net;
+using System.Xml.Serialization;
+
+using System.Collections.Generic;
 namespace BugzillaInterface
 {
 	public class Repository
@@ -69,6 +72,12 @@ namespace BugzillaInterface
 		
 		public Repository ()
 		{
+			// This should be done in case it's deserialized
+			if(Name != "")
+			{
+				//User = new UserService(this);
+				Console.WriteLine ("Deserializing. Yeah!");
+			}
 		}
 		
 		public bool LoginAndVerify()
@@ -92,14 +101,23 @@ namespace BugzillaInterface
 			if(Verified && User.LoggedIn)
 			{
 				// Store the login cookies
-				foreach(Cookie c in User.LoginCookies)
+				/*foreach(Cookie c in User.LoginCookies)
 				{
 					proxy.CookieContainer.Add(c);
+				}*/
+				
+				/*foreach(KeyValuePair<string, string[]> item in User.CookieDict)
+				{
+					proxy.CookieContainer.Add(new Cookie(item.Key, item.Value[0], item.Value[1], item.Value[2]));
+				}*/
+				foreach(string[] item in User.CookieList)
+				{
+					proxy.CookieContainer.Add(new Cookie(item[0], item[1], item[2], item[3]));
 				}
 			}
 			
 			return proxy;
-		}
+		}	
 	}
 }
 

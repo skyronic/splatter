@@ -82,6 +82,9 @@ namespace Frontend
 			// target should be valid if control reaches here			
 			SplatterCore.Instance.Sources.Add(target);
 			
+			// Trigger a save
+			SplatterCore.Instance.SaveState();
+			
 			parentDialog.UpdateAvailableSources();
 		}
 		

@@ -38,7 +38,9 @@ namespace Splatter
 //			bugService.LoginAsUser(userService);
 //			bugService.DoSomething();
 			
-			SplatterCore.Instance.TestStuff();
+			//SplatterCore.Instance.TestStuff();
+			SplatterCore.LoadState();
+			SplatterCore.Instance.TestLoggedInStuff();
 		}
 	}
 }

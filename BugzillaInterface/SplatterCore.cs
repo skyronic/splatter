@@ -30,32 +30,96 @@ using System.Collections.Generic;
 using CookComputing.XmlRpc;
 using System.IO;
 using System.Diagnostics;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Text;
+
 namespace BugzillaInterface
 {
+	[XmlRoot("SplatterCore")]
 	public sealed class SplatterCore
 	{
-		public static readonly SplatterCore Instance = new SplatterCore ();
-
+		public static SplatterCore Instance = new SplatterCore ();
+		
+		
+		[XmlArray("sources")]
+		[XmlArrayItem("source", typeof(Repository))]
 		public List<Repository> Sources { get; set; }
+		
+		[XmlIgnore()]
 		public List<Query> Queries { get; set; }
-		private SplatterCore ()
+		
+		public int Loaded{get;private set;}
+		public SplatterCore ()
 		{
-			Sources = new List<Repository> ();
-			Queries = new List<Query> ();
+			if(Loaded != 50)
+			{
+				Sources = new List<Repository> ();
+				Queries = new List<Query> ();
+				Loaded = 50;
+			}
+			else
+			{
+				Console.WriteLine ("Deserialization");
+			}
 		}
 
 		public void TestStuff ()
 		{
 			// Create a new repository and log in
 			Repository source = new Repository ();
+			source.Name = "Bugzilla Landfill";
 			source.Url = "https://landfill.bugzilla.org/bugzilla-3.4-branch/xmlrpc.cgi";
 			source.UserName = "anirudh@anirudhsanjeev.org";
 			source.Password = "opeth";
 			// not my real password, don't worry
-			source.Proxy = "http://144.16.192.247:8080";
+			source.Proxy = "http://10.3.100.211:8080";
 			if (source.LoginAndVerify ()) {
-				Query q1 = new Query (source);
-				q1.TestStuff ();
+				Sources.Add(source);
+				SaveState();
+			}
+		}
+		public void TestLoggedInStuff ()
+		{
+			Query q1 = new Query(this.Sources[0]);
+			q1.TestStuff();
+		}
+		
+		public void SaveState()
+		{
+			string filePath = "huha.xml"; // In true kgp style
+			if(File.Exists (filePath))
+			{
+				File.Move(filePath, filePath + ".bak");
+				// pray this works
+			}
+			
+			XmlSerializer ser = new XmlSerializer(typeof(SplatterCore));
+			FileStream outfile = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+			TextWriter textWriter = new StreamWriter(outfile);
+			ser.Serialize(textWriter, this);
+			textWriter.Close();
+			outfile.Close();
+			
+			if(File.Exists(filePath + ".bak"))
+			{
+				File.Delete(filePath + ".bak");
+			}
+		}
+		
+		public static void LoadState()
+		{
+			string filePath = "huha.xml";
+			if(File.Exists(filePath))
+			{
+				XmlSerializer ser = new XmlSerializer(typeof(SplatterCore));
+				TextReader reader = new StreamReader(filePath);
+				
+				SplatterCore newCore = (SplatterCore)ser.Deserialize(reader);
+				
+				// TODO: is it safe to do this?
+				SplatterCore.Instance = newCore;
+				reader.Close();
 			}
 		}
 	}

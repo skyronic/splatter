@@ -28,6 +28,11 @@
 using System;
 using CookComputing.XmlRpc;
 using System.Net;
+using System.Xml.Serialization;
+using System.Collections.Generic;
+
+
+
 namespace BugzillaInterface
 {
 	// Create the class that interfaces with XML-RPC
@@ -45,19 +50,34 @@ namespace BugzillaInterface
 	}
 	
 	
+	[XmlRoot("user")]
 	public class UserService
 	{
+		[XmlAttribute("url")]
 		private string Url{get;set;}
+		
+		[XmlIgnore()]
 		private IUserAPI userProxy;
+		
+		[XmlAttribute("loggedin")]
 		public bool LoggedIn
 		{get;set;}
+		
+		[XmlIgnore()]
 		public CookieCollection LoginCookies{get;set;}
 		
+		[XmlIgnore()]
+		public Dictionary<string,string[]> CookieDict{get;set;}
+		
+		public List<string[]> CookieList{get;set;}
+		
+		[XmlIgnore()]
 		public Repository Source {
 			get;
 			set;
 		}
 		
+		[XmlAttribute("proxy")]
 		string Proxy;
 		
 		
@@ -70,6 +90,11 @@ namespace BugzillaInterface
 			LoggedIn = false;
 		}
 		
+		// should be called only by the serializer
+		public UserService()
+		{
+		}
+		
 		public UserService (Repository source)
 		{
 			Source = source;
@@ -78,6 +103,7 @@ namespace BugzillaInterface
 			Console.WriteLine ("The url is " + userProxy.Url);
 			if(source.Proxy != "")
 			{
+				Console.WriteLine ("The proxy is :" + source.Proxy);
 				userProxy.Proxy = new WebProxy(source.Proxy);
 			}
 			LoggedIn = false;
@@ -113,6 +139,16 @@ namespace BugzillaInterface
 			
 			// yum :)
 			LoginCookies = userProxy.ResponseCookies;
+			
+			CookieDict = new Dictionary<string, string[]>();
+			CookieList = new List<string[]>();
+			
+			foreach(Cookie c in LoginCookies)
+			{
+				//CookieDict[c.Name] = new string[] {c.Value, c.Path, c.Domain};
+				CookieList.Add(new string[] {c.Name, c.Value, c.Path, c.Domain});
+			}
+			
 			
 			LoggedIn = true;
 			
