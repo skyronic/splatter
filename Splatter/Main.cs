@@ -30,13 +30,15 @@ namespace Splatter
 //				Console.WriteLine(prod.ToString());
 //			}
 			
-			UserService userService = new UserService("https://landfill.bugzilla.org/bugzilla-3.4-branch/xmlrpc.cgi");
+//			UserService userService = new UserService("https://landfill.bugzilla.org/bugzilla-3.4-branch/xmlrpc.cgi");
+//			
+//			userService.TryLogin("anirudh@anirudhsanjeev.org", "opeth");
+//			
+//			BugService bugService = new BugService("https://landfill.bugzilla.org/bugzilla-3.4-branch/xmlrpc.cgi");
+//			bugService.LoginAsUser(userService);
+//			bugService.DoSomething();
 			
-			userService.TryLogin("anirudh@anirudhsanjeev.org", "opeth");
-			
-			BugService bugService = new BugService("https://landfill.bugzilla.org/bugzilla-3.4-branch/xmlrpc.cgi");
-			bugService.LoginAsUser(userService);
-			bugService.DoSomething();
+			SplatterCore.Instance.TestStuff();
 		}
 	}
 }
