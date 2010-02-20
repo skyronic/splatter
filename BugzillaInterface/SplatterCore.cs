@@ -46,7 +46,8 @@ namespace BugzillaInterface
 		[XmlArrayItem("source", typeof(Repository))]
 		public List<Repository> Sources { get; set; }
 		
-		[XmlIgnore()]
+		[XmlArray("queries")]
+		[XmlArrayItem("query", typeof(Query))]
 		public List<Query> Queries { get; set; }
 		
 		public int Loaded{get;private set;}
@@ -76,13 +77,18 @@ namespace BugzillaInterface
 			source.Proxy = "http://10.3.100.211:8080";
 			if (source.LoginAndVerify ()) {
 				Sources.Add(source);
+				Query q1 = new Query();
+				Queries.Add(q1);
+				q1.SourceID = 0;
+				q1.TestStuff();
 				SaveState();
 			}
 		}
 		public void TestLoggedInStuff ()
 		{
-			Query q1 = new Query(this.Sources[0]);
-			q1.TestStuff();
+			Query q1 = Queries[0];
+			//q1.TestStuff();
+			q1.TestLoggedInStuff();
 		}
 		
 		public void SaveState()
@@ -121,6 +127,11 @@ namespace BugzillaInterface
 				SplatterCore.Instance = newCore;
 				reader.Close();
 			}
+		}
+		
+		public void PostDeserialize()
+		{
+			
 		}
 	}
 

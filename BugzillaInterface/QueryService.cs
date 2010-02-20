@@ -28,13 +28,18 @@
 using System;
 using System.Collections.Generic;
 using CookComputing.XmlRpc;
+using System.Xml.Serialization;
 
 namespace BugzillaInterface
 {
 	public abstract class BaseQuery
 	{
 		public SearchParams queryParameters;
+		
+		[XmlIgnore()]
 		public Repository Source{get;set;}
+		
+		[XmlIgnore()]
 		public IBugAPI bugProxy{get;set;}
 		
 		public List<BugReport> GetQueryResults()
@@ -57,6 +62,11 @@ namespace BugzillaInterface
 		public abstract void Configure();
 		
 		public BaseQuery(Repository source)
+		{
+			SetSource (source);
+		}
+		
+		public void SetSource (Repository source)
 		{
 			Console.WriteLine("Configuring base query");
 			queryParameters = new SearchParams();
@@ -92,14 +102,25 @@ namespace BugzillaInterface
 	
 	public class Query
 	{
+		[XmlArray("bugs")]
+		[XmlArrayItem("bug", typeof(BugReport))]
 		public List<BugReport> Bugs{get;set;}
-		public List<int> BugIds{get;set;}
+		
+		[XmlArray("bugids")]
+		[XmlArrayItem("bugid", typeof(int))]
+		public List<int> BugIds{get;set;}		
+		
 		public BaseQuery Generator{get;set;}
 		
+		[XmlIgnore()]
 		public Repository Source{get;set;}
+		
+		public int SourceID{get;set;}
 		
 		public Query()
 		{
+			Bugs = new List<BugReport>();
+			BugIds = new List<int>();
 		}
 		
 		public Query(Repository source)
@@ -109,12 +130,31 @@ namespace BugzillaInterface
 		
 		public void TestStuff()
 		{
+			Source = SplatterCore.Instance.Sources[SourceID];
 			BaseQuery query1 = new ReportedByQuery(Source);
 			query1.Configure();
 			List<BugReport> results = query1.GetQueryResults();
 			foreach(BugReport bug in results)
 			{
 				Console.WriteLine (bug.ToString());
+				Bugs.Add(bug);
+				BugIds.Add(bug.id);
+			}
+		}
+		
+		public void TestLoggedInStuff()
+		{
+			foreach (BugReport bug in Bugs) {
+				Console.WriteLine (bug.ToString());
+			}
+		}
+		
+		public void PostDeserialize()
+		{
+			if(Generator != null && Source != null)
+			{
+				Console.WriteLine ("Doing post deser for query");
+				Generator.SetSource(Source);
 			}
 		}
 		
