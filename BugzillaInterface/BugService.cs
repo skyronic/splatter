@@ -45,6 +45,7 @@ namespace BugzillaInterface
 		
 		[XmlRpcMethod("Bug.search")]
 		GetBugsResponse SearchBugs(SearchParams parameters);
+		
 	}
 	
 	public struct GetBugsParams
@@ -131,8 +132,11 @@ namespace BugzillaInterface
 		}
 	}
 	
+	[XmlRpcMissingMapping(MappingAction.Ignore)]
 	public struct SearchParams
 	{
+		
+		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string alias{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
@@ -141,20 +145,21 @@ namespace BugzillaInterface
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string component{get;set;}
 		
-		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public DateTime creation_time{get;set;}
+		public DateTime? creation_time;
 		
-		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public int id{get;set;}
+		public int? id;
 		
-		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public DateTime last_change_time{get;set;}
+		public int? limit;
 		
-		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public int limit{get;set;}
+		public int? offset;
 		
-		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public int offset{get;set;}
+		public DateTime? last_change_time;
+		
+		//[XmlRpcMissingMapping(MappingAction.Ignore)]
+		//public int limit{get;set;}
+		
+		//[XmlRpcMissingMapping(MappingAction.Ignore)]
+		//public int offset{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string op_sys{get;set;}
@@ -212,9 +217,7 @@ namespace BugzillaInterface
 		public XmlRpcStruct bugs;
 		public XmlRpcStruct comments;
 	}
-	
-	
-	
+
 	
 	public class BugService
 	{

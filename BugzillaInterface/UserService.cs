@@ -53,6 +53,13 @@ namespace BugzillaInterface
 		{get;set;}
 		public CookieCollection LoginCookies{get;set;}
 		
+		public Repository Source {
+			get;
+			set;
+		}
+		
+		string Proxy;
+		
 		
 		public UserService (string url)
 		{
@@ -63,8 +70,22 @@ namespace BugzillaInterface
 			LoggedIn = false;
 		}
 		
+		public UserService (Repository source)
+		{
+			Source = source;
+			userProxy = XmlRpcProxyGen.Create<IUserAPI>();
+			userProxy.Url = source.Url;
+			Console.WriteLine ("The url is " + userProxy.Url);
+			if(source.Proxy != "")
+			{
+				userProxy.Proxy = new WebProxy(source.Proxy);
+			}
+			LoggedIn = false;
+		}
+		
 		public bool TryLogin(string login, string password)
 		{
+			Console.WriteLine ("Logging in");
 			LoginParams loginParams = new LoginParams();
 			loginParams.login = login;
 			loginParams.password = password;
@@ -83,7 +104,7 @@ namespace BugzillaInterface
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine ("Unknown error");
+				Console.WriteLine ("Unknown error" + ex.Message);
 				return false;
 			}
 			
@@ -96,6 +117,11 @@ namespace BugzillaInterface
 			LoggedIn = true;
 			
 			return true;
+		}
+		
+		public bool TryLogin()
+		{
+			return TryLogin(Source.UserName, Source.Password);
 		}
 		
 	}

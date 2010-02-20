@@ -33,6 +33,9 @@
     <Compile Include="IProductAPI.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="BugService.cs" />
+    <Compile Include="QueryService.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="SplatterCore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d">
