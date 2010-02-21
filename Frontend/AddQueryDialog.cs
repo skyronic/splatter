@@ -68,6 +68,12 @@ namespace Frontend
 			filterWidgets.Add(new ProductFilterWidget());
 			filterNames.Add("Product");
 			
+			filterWidgets.Add(new StatusFilterWidget());
+			filterNames.Add("Status");
+			
+			filterWidgets.Add(new ImportanceWidget());
+			filterNames.Add("Importance");
+			
 			// set up the treeview columns
 			TreeViewColumn filterColumn = new TreeViewColumn();
 			CellRendererText filterRenderer = new CellRendererText();
@@ -153,6 +159,11 @@ namespace Frontend
 			if(sourceSelector.Active != 0)
 			{
 				testQueryButton.Sensitive = true;
+				foreach(Widget filterWidget in filterWidgets)
+				{
+					IFilterWidget item = (IFilterWidget)filterWidget;
+					item.SetNewSourceID(sourceSelector.Active - 1);
+				}
 			}
 			else
 			{

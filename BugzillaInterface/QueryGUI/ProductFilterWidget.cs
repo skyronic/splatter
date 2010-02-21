@@ -48,6 +48,11 @@ namespace BugzillaInterface
 			}
 		}
 		
+		public void SetNewSourceID(int sourceID)
+		{
+			
+		}
+		
 		#endregion
 		public ProductFilterWidget ()
 		{

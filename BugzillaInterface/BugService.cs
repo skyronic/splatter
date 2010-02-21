@@ -172,7 +172,7 @@ namespace BugzillaInterface
 		public string platform{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public string priority{get;set;}
+		public string[] priority{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string product{get;set;}
@@ -181,7 +181,7 @@ namespace BugzillaInterface
 		public string reporter{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public string resolution{get;set;}
+		public string[] resolution{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string[] severity{get;set;}

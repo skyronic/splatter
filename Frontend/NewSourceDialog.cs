@@ -50,6 +50,9 @@ namespace Frontend
 			
 			if(target.LoginAndVerify())
 			{
+				statusLabel.Text = "Status: Login Success! Getting details. Please wait";
+				target.FetchLegalValues();
+				
 				// login success
 				statusLabel.Text = "Status: <b>Verified!</b>";
 				
@@ -86,6 +89,10 @@ namespace Frontend
 			SplatterCore.Instance.SaveState();
 			
 			parentDialog.UpdateAvailableSources();
+			
+			// Close the dialog
+			this.HideAll();
+			this.Dispose();
 		}
 		
 		

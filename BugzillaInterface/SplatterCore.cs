@@ -74,13 +74,14 @@ namespace BugzillaInterface
 			source.UserName = "anirudh@anirudhsanjeev.org";
 			source.Password = "opeth";
 			// not my real password, don't worry
-			source.Proxy = "http://144.16.192.247:8080";
+			source.Proxy = "http://10.3.100.211:8080";
 			if (source.LoginAndVerify ()) {
+				source.FetchLegalValues();
 				Sources.Add(source);
-				Query q1 = new Query();
-				Queries.Add(q1);
-				q1.SourceID = 0;
-				q1.TestStuff();
+				//Query q1 = new Query();
+				//Queries.Add(q1);
+				//q1.SourceID = 0;
+				//q1.TestStuff();
 				SaveState();
 			}
 		}

@@ -30,6 +30,7 @@ using CookComputing.XmlRpc;
 using System.Net;
 using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.Threading;
 
 
 
@@ -40,6 +41,14 @@ namespace BugzillaInterface
 	{
 		[XmlRpcMethod("User.login")]
 		XmlRpcStruct Login(LoginParams parameters);
+		
+		[XmlRpcMethod("Bug.legal_values")]
+		LegalValuesResponse LegalValues(XmlRpcStruct parameters);
+	}
+	
+	public struct LegalValuesResponse
+	{
+		public string[] values;
 	}
 	
 	public struct LoginParams
@@ -93,6 +102,27 @@ namespace BugzillaInterface
 		// should be called only by the serializer
 		public UserService()
 		{
+		}
+		
+		public List<string> GetLegalValues(string fieldName)
+		{
+			XmlRpcStruct parameters = new XmlRpcStruct();
+			parameters.Add("field", fieldName);
+			//userProxy.Expect100Continue = true;
+			//userProxy.EnableCompression = false;
+			
+			Console.WriteLine ("Retrieving legal values for " + fieldName);
+			LegalValuesResponse response = userProxy.LegalValues(parameters);
+			
+			List<string> result = new List<string>();
+			foreach(string item in response.values)
+			{
+				result.Add(item);
+				Console.Write(item + ",");
+			}
+			Console.WriteLine("done");
+			Thread.Sleep(1000);
+			return result;
 		}
 		
 		public UserService (Repository source)

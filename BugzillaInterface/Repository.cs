@@ -70,6 +70,18 @@ namespace BugzillaInterface
 			private set;
 		}
 		
+		public List<string> componentList{get;set;}
+		public List<string> platformList{get;set;}
+		public List<string> productList{get;set;}
+		public List<string> resolutionList{get;set;}
+		public List<string> severityList{get;set;}
+		public List<string> statusList{get;set;}
+		public List<string> milestoneList{get;set;}
+		public List<string> versionList{get;set;}
+		public List<string> priorityList{get;set;}
+		//public List<string> versionList{get;set;}
+		//public List<string> versionList{get;set;}
+		
 		public Repository ()
 		{
 			// This should be done in case it's deserialized
@@ -92,6 +104,16 @@ namespace BugzillaInterface
 				}
 			}
 			return false;
+		}
+		
+		public void FetchLegalValues()
+		{
+			//platformList = User.GetLegalValues("platform");
+			resolutionList = User.GetLegalValues("resolution");
+			severityList = User.GetLegalValues("severity");
+			statusList = User.GetLegalValues("status");
+			priorityList = User.GetLegalValues("priority");
+			
 		}
 		
 		public IXmlRpcProxy ConfigureXmlRpcProxy(IXmlRpcProxy proxy)

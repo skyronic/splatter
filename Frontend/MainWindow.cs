@@ -144,8 +144,14 @@ namespace Frontend
 			
 			foreach(TreePath selected in selectedQueries)
 			{
-				int index = selected.Indices[0];
-				Console.WriteLine ("Deleting query with index {0}", index);
+				if(selected.Indices.Length == 1)// Root node
+				{
+					int index = selected.Indices[0];
+					
+					Console.WriteLine ("Deleting query with index {0}", index);
+					SplatterCore.Instance.Queries.RemoveAt(index);
+				}
+				
 			}
 		}
 	}

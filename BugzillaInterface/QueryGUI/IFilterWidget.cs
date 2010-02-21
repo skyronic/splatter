@@ -34,5 +34,6 @@ namespace BugzillaInterface
 	public interface IFilterWidget
 	{
 		void SetFilterParams(ref SearchParams filter);
+		void SetNewSourceID(int sourceID);
 	}
 }

@@ -44,6 +44,12 @@
     <Compile Include="QueryGUI\IFilterWidget.cs" />
     <Compile Include="QueryGUI\ProductFilterWidget.cs" />
     <Compile Include="gtk-gui\BugzillaInterface.ProductFilterWidget.cs" />
+    <Compile Include="QueryGUI\StringArrayWidget.cs" />
+    <Compile Include="gtk-gui\BugzillaInterface.StringArrayWidget.cs" />
+    <Compile Include="QueryGUI\StatusFilterWidget.cs" />
+    <Compile Include="gtk-gui\BugzillaInterface.StatusFilterWidget.cs" />
+    <Compile Include="QueryGUI\ImportanceWidget.cs" />
+    <Compile Include="gtk-gui\BugzillaInterface.ImportanceWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d">

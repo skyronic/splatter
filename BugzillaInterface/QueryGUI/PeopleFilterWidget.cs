@@ -56,5 +56,10 @@ namespace BugzillaInterface
 				filter.qa_contact = reportedTextBox.Text;
 			}
 		}
+		
+		public void SetNewSourceID(int sourceID)
+		{
+			
+		}
 	}
 }
