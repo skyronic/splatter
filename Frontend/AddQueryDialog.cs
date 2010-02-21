@@ -91,8 +91,11 @@ namespace Frontend
 			foreach(Widget filter in filterWidgets)
 			{
 				filter.HideAll();
+				filter.Visible = false;
 				filterContainer.PackStart(filter, false, false, 0);
 			}
+			filterContainer.Visible = false;
+			filterContainer.HideAll();
 		}
 		
 		
@@ -128,6 +131,8 @@ namespace Frontend
 		{
 			int index = args.Path.Indices[0];
 			Console.WriteLine ("Activating filter number{0}", index);
+			filterContainer.Show();
+			filterContainer.Visible = true;
 			foreach(Widget child in filterContainer.Children)
 			{
 				child.HideAll();
@@ -152,6 +157,79 @@ namespace Frontend
 			else
 			{
 				testQueryButton.Sensitive = false;
+			}
+		}
+		
+		// The candidate query that will be added to the master list
+		Query Candidate;
+		
+		protected virtual void TestQueryButtonClicked (object sender, System.EventArgs e)
+		{
+			// we're assuming that the source is a valid one.
+			buttonOk.Sensitive = false;
+			Candidate = null; // Erase any previous successful query candidate
+			Query target = new Query();
+			
+			// Set the global source ID of the target's source
+			target.SourceID = sourceSelector.Active - 1;
+			
+			// Start setting the parameters that will be set via the filters
+			SearchParams queryParams = new SearchParams();
+			
+			// iterate over all the filters and get the filters
+			foreach(Widget filterWidget in filterWidgets)
+			{
+				IFilterWidget filter = (IFilterWidget)filterWidget;
+				if(filter != null)
+				{
+					// modify the query parameters
+					filter.SetFilterParams(ref queryParams);
+				}				
+			}
+			
+			target.Generator.queryParameters = queryParams;
+			target.Generator.Title = bugTitleEntry.Text;
+			
+			// now try to run the query
+			testQueryButton.Sensitive = false;
+			int output = target.Execute();
+			if(output == -1)
+			{
+				// the connection failed or something
+				testQueryOutputLabel.Text = "The request to the server failed. Please try later";
+				testQueryButton.Sensitive = true;
+			}
+			else
+			{
+				testQueryOutputLabel.Text = String.Format("The query returned {0} results", output);
+				
+				// Allow user to press OK button
+				buttonOk.Sensitive = true;
+				
+				// Set the new candidate
+				Candidate = target;
+				
+				testQueryButton.Sensitive = true;
+				
+			}
+		}
+		
+		public MainWindow parentWindow{get;set;}
+		protected virtual void OKButtonClicked (object sender, System.EventArgs e)
+		{
+			if(Candidate!=null)
+			{
+				// add the candidate query to the list of queries
+				SplatterCore.Instance.Queries.Add(Candidate);
+				
+				// Force a save to disk
+				SplatterCore.Instance.SaveState();
+				
+				// Tell GUI To sync				
+				parentWindow.SyncTreeviewWithBugs();
+				
+				this.Visible = false;
+				this.Dispose();
 			}
 		}
 		

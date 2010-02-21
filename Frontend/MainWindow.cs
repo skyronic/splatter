@@ -39,30 +39,35 @@ namespace Frontend
 		{
 			Build ();
 			TreeViewColumn idColumn = new TreeViewColumn();
+			idColumn.Title = "ID";
 			CellRendererText idColumnCell = new CellRendererText();
 			idColumn.PackStart(idColumnCell, true);
 			idColumn.AddAttribute(idColumnCell, "text", 0);
 			
 			
 			TreeViewColumn productColumn = new TreeViewColumn();
+			productColumn.Title = "Product";
 			CellRendererText productColumnCell = new CellRendererText();
 			productColumn.PackStart(productColumnCell, true);
 			productColumn.AddAttribute(productColumnCell, "text", 1);
 			
 			
 			TreeViewColumn severityColumn = new TreeViewColumn();
+			severityColumn.Title = "Severity";
 			CellRendererText severityColumnCell = new CellRendererText();
 			severityColumn.PackStart(severityColumnCell, true);
 			severityColumn.AddAttribute(severityColumnCell, "text", 2);
 			
 			
 			TreeViewColumn statusColumn = new TreeViewColumn();
+			statusColumn.Title = "Status";
 			CellRendererText statusColumnCell = new CellRendererText();
 			statusColumn.PackStart(statusColumnCell, true);
 			statusColumn.AddAttribute(statusColumnCell, "text", 3);
 			
 			
 			TreeViewColumn summaryColumn = new TreeViewColumn();
+			summaryColumn.Title = "Summary";
 			CellRendererText summaryColumnCell = new CellRendererText();
 			summaryColumn.PackStart(summaryColumnCell, true);
 			summaryColumn.AddAttribute(summaryColumnCell, "text", 4);
@@ -91,21 +96,40 @@ namespace Frontend
 		protected virtual void AddNewQueryClicked (object sender, System.EventArgs e)
 		{
 			AddQueryDialog addQuery = new AddQueryDialog ();
+			addQuery.ShowAll();
+			addQuery.parentWindow = this;
 		}
 
 		protected virtual void RefreshQueriesBuggonClicked (object sender, System.EventArgs e)
 		{
+			int TotalQueries = SplatterCore.Instance.Queries.Count;
+			if(TotalQueries > 0)
+			{
+				int index = 0;
+				foreach (Query query in SplatterCore.Instance.Queries) {
+					statusLabel.Text = "Refreshing query " + query.Generator.Title;
+					progressbar1.Fraction = (double)(index + 1) / (double)(TotalQueries + 1);
+					query.Execute();
+				}
+				progressbar1.Fraction = 1;
+				statusLabel.Text = "Refresh complete!";
+				
+				// Save and sync
+				SplatterCore.Instance.SaveState();
+				SyncTreeviewWithBugs();
+			}
 		}
 
 		/// <summary>
 		/// Updates the entire treeview with the latest bugs
 		/// </summary>
-		protected void SyncTreeviewWithBugs ()
+		public void SyncTreeviewWithBugs ()
 		{
 			Console.WriteLine ("Syncing treeview with bugs " + SplatterCore.Instance.Queries.Count);
+			// Clear all the items in the store
+			bugStore.Clear();
 			foreach(Query q in SplatterCore.Instance.Queries)
 			{
-				Console.WriteLine ("Adding new Query ");
 				TreeIter queryIter = bugStore.AppendValues(q.Generator.Title);
 				foreach(BugReport bug in q.Bugs)
 				{
@@ -114,7 +138,15 @@ namespace Frontend
 			}
 		}
 		
-		
-		
+		protected virtual void DeleteQuery (object sender, System.EventArgs e)
+		{
+			TreePath[] selectedQueries = treeview1.Selection.GetSelectedRows();
+			
+			foreach(TreePath selected in selectedQueries)
+			{
+				int index = selected.Indices[0];
+				Console.WriteLine ("Deleting query with index {0}", index);
+			}
+		}
 	}
 }

@@ -47,8 +47,7 @@ namespace BugzillaInterface
 		[XmlIgnore()]
 		public IBugAPI bugProxy{get;set;}
 		
-		public string Title{get{
-				return "Random Query Name";}set{}}
+		public string Title{get;set;}
 		
 		public List<BugReport> GetQueryResults()
 		{
@@ -70,7 +69,6 @@ namespace BugzillaInterface
 		}
 		public BaseQuery()
 		{
-			Title = "Random query name";
 			queryParameters = new SearchParams();
 		}
 		
@@ -136,6 +134,7 @@ namespace BugzillaInterface
 		{
 			Bugs = new List<BugReport>();
 			BugIds = new List<int>();
+			Generator = new BaseQuery();
 		}
 		
 		public Query(Repository source)
@@ -157,6 +156,27 @@ namespace BugzillaInterface
 				Bugs.Add(bug);
 				BugIds.Add(bug.id);
 			}
+		}
+		
+		/// <summary>
+		/// Runs the Query and returns the number of results
+		/// </summary>
+		/// <returns>
+		/// A <see cref="System.Int32"/>. -1 if failure, 0 - n if success
+		/// </returns>
+		public int Execute()
+		{
+			Source = SplatterCore.Instance.Sources[SourceID];
+			try
+			{
+				List<BugReport> results = Generator.GetQueryResults();				
+				Bugs = results;
+				return Bugs.Count;
+			}
+			finally
+			{
+			}
+			return -1;
 		}
 		
 		public void TestLoggedInStuff()
