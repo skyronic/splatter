@@ -35,7 +35,7 @@ namespace BugzillaInterface
 	
 	[Serializable()]
 	[XmlInclude(typeof(ReportedByQuery))]
-	public abstract class BaseQuery
+	public class BaseQuery
 	{
 		public SearchParams queryParameters;
 		
@@ -74,8 +74,6 @@ namespace BugzillaInterface
 			queryParameters = new SearchParams();
 		}
 		
-		public abstract void Configure();
-		
 		public BaseQuery(Repository source)
 		{
 		}
@@ -94,7 +92,7 @@ namespace BugzillaInterface
 	{
 		public string ReportedByName{get;set;}
 		
-		public override void Configure ()
+		public void Configure ()
 		{
 			ReportedByName = "balloonbending@yahoo.com";
 			queryParameters.assigned_to = ReportedByName;
@@ -148,10 +146,10 @@ namespace BugzillaInterface
 		public void TestStuff()
 		{
 			Source = SplatterCore.Instance.Sources[SourceID];
-			BaseQuery query1 = new ReportedByQuery();
+			BaseQuery query1 = new BaseQuery();
 			Generator = query1;
 			query1.SourceId = SourceID;
-			query1.Configure();
+			//query1.Configure();
 			List<BugReport> results = query1.GetQueryResults();
 			foreach(BugReport bug in results)
 			{

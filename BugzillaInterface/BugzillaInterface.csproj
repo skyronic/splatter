@@ -36,6 +36,14 @@
     <Compile Include="QueryService.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="SplatterCore.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="gtk-gui\BugzillaInterface.PeopleFilterWidget.cs" />
+    <Compile Include="QueryGUI\PeopleFilterWidget.cs" />
+    <Compile Include="QueryGUI\SensitiveTextBox.cs" />
+    <Compile Include="gtk-gui\BugzillaInterface.SensitiveTextBox.cs" />
+    <Compile Include="QueryGUI\IFilterWidget.cs" />
+    <Compile Include="QueryGUI\ProductFilterWidget.cs" />
+    <Compile Include="gtk-gui\BugzillaInterface.ProductFilterWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d">
@@ -67,5 +75,10 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="QueryGUI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
