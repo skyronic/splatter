@@ -27,31 +27,94 @@
 // THE SOFTWARE.
 using System;
 using Gtk;
+using BugzillaInterface;
 
 namespace Frontend
 {
-public partial class MainWindow : Gtk.Window
-{
-	public MainWindow () : base(Gtk.WindowType.Toplevel)
+	public partial class MainWindow : Gtk.Window
 	{
-		Build ();
-	}
+		
+		TreeStore bugStore;
+		public MainWindow () : base(Gtk.WindowType.Toplevel)
+		{
+			Build ();
+			TreeViewColumn idColumn = new TreeViewColumn();
+			CellRendererText idColumnCell = new CellRendererText();
+			idColumn.PackStart(idColumnCell, true);
+			idColumn.AddAttribute(idColumnCell, "text", 0);
+			
+			
+			TreeViewColumn productColumn = new TreeViewColumn();
+			CellRendererText productColumnCell = new CellRendererText();
+			productColumn.PackStart(productColumnCell, true);
+			productColumn.AddAttribute(productColumnCell, "text", 1);
+			
+			
+			TreeViewColumn severityColumn = new TreeViewColumn();
+			CellRendererText severityColumnCell = new CellRendererText();
+			severityColumn.PackStart(severityColumnCell, true);
+			severityColumn.AddAttribute(severityColumnCell, "text", 2);
+			
+			
+			TreeViewColumn statusColumn = new TreeViewColumn();
+			CellRendererText statusColumnCell = new CellRendererText();
+			statusColumn.PackStart(statusColumnCell, true);
+			statusColumn.AddAttribute(statusColumnCell, "text", 3);
+			
+			
+			TreeViewColumn summaryColumn = new TreeViewColumn();
+			CellRendererText summaryColumnCell = new CellRendererText();
+			summaryColumn.PackStart(summaryColumnCell, true);
+			summaryColumn.AddAttribute(summaryColumnCell, "text", 4);
+			
+			
+			
+			treeview1.AppendColumn(idColumn);
+			treeview1.AppendColumn(productColumn);
+			treeview1.AppendColumn(severityColumn);
+			treeview1.AppendColumn(statusColumn);
+			treeview1.AppendColumn(summaryColumn);
+			
+			bugStore = new TreeStore(typeof(string),typeof(string),typeof(string),typeof(string),typeof(string));
+			SplatterCore.LoadState();
+			
+			SyncTreeviewWithBugs();
+			
+		}
 
-	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
-	{
-		Application.Quit ();
-		a.RetVal = true;
+		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
+		{
+			Application.Quit ();
+			a.RetVal = true;
+		}
+		protected virtual void AddNewQueryClicked (object sender, System.EventArgs e)
+		{
+			AddQueryDialog addQuery = new AddQueryDialog ();
+		}
+
+		protected virtual void RefreshQueriesBuggonClicked (object sender, System.EventArgs e)
+		{
+		}
+
+		/// <summary>
+		/// Updates the entire treeview with the latest bugs
+		/// </summary>
+		protected void SyncTreeviewWithBugs ()
+		{
+			Console.WriteLine ("Syncing treeview with bugs " + SplatterCore.Instance.Queries.Count);
+			foreach(Query q in SplatterCore.Instance.Queries)
+			{
+				Console.WriteLine ("Adding new Query ");
+				TreeIter queryIter = bugStore.AppendValues(q.Generator.Title);
+				foreach(BugReport bug in q.Bugs)
+				{
+					bugStore.AppendValues(queryIter, bug.id.ToString(), bug.product, bug.severity, bug.status, bug.summary);
+					Console.WriteLine(bugStore.ToString());
+				}
+			}
+		}
+		
+		
+		
 	}
-	protected virtual void AddNewQueryClicked (object sender, System.EventArgs e)
-	{
-		AddQueryDialog addQuery = new AddQueryDialog();
-	}
-	
-	protected virtual void RefreshQueriesBuggonClicked (object sender, System.EventArgs e)
-	{
-	}
-	
-	
-	
-}
 }

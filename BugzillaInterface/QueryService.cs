@@ -32,9 +32,14 @@ using System.Xml.Serialization;
 
 namespace BugzillaInterface
 {
+	
+	[Serializable()]
+	[XmlInclude(typeof(ReportedByQuery))]
 	public abstract class BaseQuery
 	{
 		public SearchParams queryParameters;
+		
+		public int SourceId{get;set;}
 		
 		[XmlIgnore()]
 		public Repository Source{get;set;}
@@ -42,8 +47,12 @@ namespace BugzillaInterface
 		[XmlIgnore()]
 		public IBugAPI bugProxy{get;set;}
 		
+		public string Title{get{
+				return "Random Query Name";}set{}}
+		
 		public List<BugReport> GetQueryResults()
 		{
+			SetSource(SplatterCore.Instance.Sources[SourceId]);
 			Console.WriteLine ("Making query");
 			List<BugReport> results = new List<BugReport>();
 			GetBugsResponse result = bugProxy.SearchBugs(queryParameters);
@@ -57,13 +66,13 @@ namespace BugzillaInterface
 		}
 		public BaseQuery()
 		{
+			Title = "Random query name";
 		}
 		
 		public abstract void Configure();
 		
 		public BaseQuery(Repository source)
 		{
-			SetSource (source);
 		}
 		
 		public void SetSource (Repository source)
@@ -87,6 +96,11 @@ namespace BugzillaInterface
 		}		
 		
 		public ReportedByQuery(Repository source) : base(source)
+		{
+			
+		}
+		
+		public ReportedByQuery()
 		{
 			
 		}
@@ -131,7 +145,8 @@ namespace BugzillaInterface
 		public void TestStuff()
 		{
 			Source = SplatterCore.Instance.Sources[SourceID];
-			BaseQuery query1 = new ReportedByQuery(Source);
+			BaseQuery query1 = new ReportedByQuery();
+			query1.SourceId = SourceID;
 			query1.Configure();
 			List<BugReport> results = query1.GetQueryResults();
 			foreach(BugReport bug in results)

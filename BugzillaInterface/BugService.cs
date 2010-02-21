@@ -100,9 +100,13 @@ namespace BugzillaInterface
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string status{get;set;}
 		
+		[XmlRpcMissingMapping(MappingAction.Ignore)]
+		public string summary{get;set;}
+		
+		
 		public override string ToString ()
 		{
-			return string.Format("[BugReport: alias={0}, assigned_to={1}, component={2}, creation_time={3}, dupe_of={4}, id={5}, is_open={6}, last_changed_time={7}, priority={8}, product={9}, resolution={10}, severity={11}, status={12}, severity={13}]", alias, assigned_to, component, creation_time, dupe_of, id, is_open, last_changed_time, priority, product, resolution, severity, status, severity);
+			return string.Format("[BugReport: alias={0}, assigned_to={1}, component={2}, creation_time={3}, dupe_of={4}, id={5}, is_open={6}, last_changed_time={7}, priority={8}, product={9}, resolution={10}, severity={11}, status={12}, severity={13}, summary={14}]", alias, assigned_to, component, creation_time, dupe_of, id, is_open, last_changed_time, priority, product, resolution, severity, status, severity, summary);
 		}
 	}
 	
