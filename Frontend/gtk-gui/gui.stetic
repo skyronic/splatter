@@ -125,9 +125,10 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Frontend.AddQueryDialog" design-size="560 496">
+  <widget class="Gtk.Dialog" id="Frontend.AddQueryDialog" design-size="611 469">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">dialog1</property>
+    <property name="Title" translatable="yes">Add new Query</property>
+    <property name="Icon">stock:gtk-add Menu</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>
@@ -139,41 +140,6 @@
           <widget class="Gtk.VBox" id="vbox3">
             <property name="MemberName" />
             <property name="Spacing">6</property>
-            <child>
-              <widget class="Gtk.Expander" id="expander1">
-                <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <child>
-                  <widget class="Gtk.Label" id="label4">
-                    <property name="MemberName" />
-                    <property name="Xpad">13</property>
-                    <property name="Xalign">0</property>
-                    <property name="LabelProp" translatable="yes">1. Select a source or add a new one.
-2. Set the required parameter for each filter of the query
-3. Test the query to see number of results.
-4. Click "OK" to add the Query.
-
-You'll need to test the query again if you make any changes to the filters.</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="Gtk.Label" id="GtkLabel6">
-                    <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">Instructions</property>
-                    <property name="UseUnderline">True</property>
-                  </widget>
-                  <packing>
-                    <property name="type">label_item</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
             <child>
               <widget class="Gtk.HBox" id="hbox4">
                 <property name="MemberName" />
@@ -210,7 +176,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
                 </child>
               </widget>
               <packing>
-                <property name="Position">1</property>
+                <property name="Position">0</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -264,7 +230,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
                 </child>
               </widget>
               <packing>
-                <property name="Position">2</property>
+                <property name="Position">1</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -287,6 +253,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
                         <child>
                           <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                             <property name="MemberName" />
+                            <property name="HeightRequest">260</property>
                             <property name="ShadowType">In</property>
                             <child>
                               <widget class="Gtk.TreeView" id="queryTreeView">
@@ -305,7 +272,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
                     <child>
                       <widget class="Gtk.Label" id="GtkLabel3">
                         <property name="MemberName" />
-                        <property name="LabelProp" translatable="yes">&lt;b&gt;Query Type&lt;/b&gt;</property>
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Filter Type&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
                       </widget>
                       <packing>
@@ -334,7 +301,22 @@ You'll need to test the query again if you make any changes to the filters.</pro
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <placeholder />
+                              <widget class="Gtk.Label" id="label6">
+                                <property name="MemberName" />
+                                <property name="LabelProp" translatable="yes">Instructions:
+
+1. Select a source or add a new one.
+2. Double click on a filter to configure it.
+3. Test the query to see number of results.
+4. Click "OK" to add the Query.
+
+You'll need to test the query again if you make any changes to the filters.</property>
+                                <property name="Wrap">True</property>
+                              </widget>
+                              <packing>
+                                <property name="Position">0</property>
+                                <property name="AutoSize">False</property>
+                              </packing>
                             </child>
                           </widget>
                         </child>
@@ -343,7 +325,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
                     <child>
                       <widget class="Gtk.Label" id="GtkLabel4">
                         <property name="MemberName" />
-                        <property name="LabelProp" translatable="yes">&lt;b&gt;Query Configuration&lt;/b&gt;</property>
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Filter Configuration&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
                       </widget>
                       <packing>
@@ -358,8 +340,10 @@ You'll need to test the query again if you make any changes to the filters.</pro
                 </child>
               </widget>
               <packing>
-                <property name="Position">3</property>
+                <property name="Position">2</property>
                 <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
               </packing>
             </child>
             <child>
@@ -398,7 +382,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
                 </child>
               </widget>
               <packing>
-                <property name="Position">4</property>
+                <property name="Position">3</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -408,6 +392,8 @@ You'll need to test the query again if you make any changes to the filters.</pro
           <packing>
             <property name="Position">0</property>
             <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
           </packing>
         </child>
       </widget>

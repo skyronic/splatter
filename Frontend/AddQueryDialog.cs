@@ -94,14 +94,14 @@ namespace Frontend
 			}
 			
 			// Add all the widgets into the hbox and hide them
-			foreach(Widget filter in filterWidgets)
+			/*foreach(Widget filter in filterWidgets)
 			{
 				filter.HideAll();
 				filter.Visible = false;
 				filterContainer.PackStart(filter, false, false, 0);
 			}
 			filterContainer.Visible = false;
-			filterContainer.HideAll();
+			filterContainer.HideAll();*/
 		}
 		
 		
@@ -141,16 +141,19 @@ namespace Frontend
 			filterContainer.Visible = true;
 			foreach(Widget child in filterContainer.Children)
 			{
-				child.HideAll();
-				child.Visible = false;
-				filterContainer.SetChildPacking(child, false, false, 0, PackType.Start);
+				//child.HideAll();
+				//child.Visible = false;
+				//filterContainer.SetChildPacking(child, false, false, 0, PackType.Start);
+				filterContainer.Remove(child);
 			}
 			
 			Widget target = filterWidgets[index];
 			target.Visible = true;
 			target.ShowAll();
 			// Expand only the widget corresponding to the active index
-			filterContainer.SetChildPacking(target, true, true, 0, PackType.Start);
+			//filterContainer.SetChildPacking(target, true, true, 0, PackType.Start);
+			
+			filterContainer.PackStart(target, true, true, 0);
 		}
 		
 		
@@ -232,6 +235,7 @@ namespace Frontend
 			{
 				// add the candidate query to the list of queries
 				SplatterCore.Instance.Queries.Add(Candidate);
+				Candidate.Generator.Title = bugTitleEntry.Text;
 				
 				// Force a save to disk
 				SplatterCore.Instance.SaveState();
