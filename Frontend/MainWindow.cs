@@ -76,6 +76,7 @@ namespace Frontend
 			treeview1.AppendColumn(summaryColumn);
 			
 			bugStore = new TreeStore(typeof(string),typeof(string),typeof(string),typeof(string),typeof(string));
+			treeview1.Model = bugStore;
 			SplatterCore.LoadState();
 			
 			SyncTreeviewWithBugs();
@@ -109,7 +110,6 @@ namespace Frontend
 				foreach(BugReport bug in q.Bugs)
 				{
 					bugStore.AppendValues(queryIter, bug.id.ToString(), bug.product, bug.severity, bug.status, bug.summary);
-					Console.WriteLine(bugStore.ToString());
 				}
 			}
 		}

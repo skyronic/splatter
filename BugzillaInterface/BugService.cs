@@ -184,10 +184,10 @@ namespace BugzillaInterface
 		public string resolution{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public string severity{get;set;}
+		public string[] severity{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public string status{get;set;}
+		public string[] status{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string summary{get;set;}

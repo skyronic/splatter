@@ -74,7 +74,7 @@ namespace BugzillaInterface
 			source.UserName = "anirudh@anirudhsanjeev.org";
 			source.Password = "opeth";
 			// not my real password, don't worry
-			source.Proxy = "http://10.3.100.211:8080";
+			source.Proxy = "http://144.16.192.247:8080";
 			if (source.LoginAndVerify ()) {
 				Sources.Add(source);
 				Query q1 = new Query();
@@ -94,15 +94,26 @@ namespace BugzillaInterface
 		public void SaveState()
 		{
 			string filePath = "huha.xml"; // In true kgp style
+			
+			/*XmlAttributes attrs = new XmlAttributes();
+			
+			XmlElementAttribute attr1 = new XmlElementAttribute("ReportedByQuery",typeof(ReportedByQuery));
+			attrs.XmlElements.Add(attr1);
+			
+			XmlAttributeOverrides attrOverRides = new XmlAttributeOverrides();
+			attrOverRides.Add(typeof(Query), "Generator", attrs);*/
+			
 			if(File.Exists (filePath))
 			{
 				File.Move(filePath, filePath + ".bak");
 				// pray this works
-			}
+			}		
 			
 			XmlSerializer ser = new XmlSerializer(typeof(SplatterCore));
 			FileStream outfile = new FileStream(filePath, FileMode.Create, FileAccess.Write);
 			TextWriter textWriter = new StreamWriter(outfile);
+			
+			
 			ser.Serialize(textWriter, this);
 			textWriter.Close();
 			outfile.Close();

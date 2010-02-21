@@ -55,6 +55,10 @@ namespace BugzillaInterface
 			SetSource(SplatterCore.Instance.Sources[SourceId]);
 			Console.WriteLine ("Making query");
 			List<BugReport> results = new List<BugReport>();
+			
+			//Tracer trace = new Tracer();
+			//trace.Attach(bugProxy);
+			
 			GetBugsResponse result = bugProxy.SearchBugs(queryParameters);
 			Console.WriteLine ("Query finished with {0} results", result.bugs.Length);
 			foreach(BugReport bug in result.bugs)
@@ -67,6 +71,7 @@ namespace BugzillaInterface
 		public BaseQuery()
 		{
 			Title = "Random query name";
+			queryParameters = new SearchParams();
 		}
 		
 		public abstract void Configure();
@@ -78,13 +83,13 @@ namespace BugzillaInterface
 		public void SetSource (Repository source)
 		{
 			Console.WriteLine("Configuring base query");
-			queryParameters = new SearchParams();
 			Source = source;
 			bugProxy = XmlRpcProxyGen.Create<IBugAPI>();
 			bugProxy = (IBugAPI)Source.ConfigureXmlRpcProxy(bugProxy);
 		}
 	}
 	
+	[Serializable()]
 	public class ReportedByQuery : BaseQuery
 	{
 		public string ReportedByName{get;set;}
@@ -93,6 +98,7 @@ namespace BugzillaInterface
 		{
 			ReportedByName = "balloonbending@yahoo.com";
 			queryParameters.assigned_to = ReportedByName;
+			queryParameters.status = new String[]{"RESOLVED", "ASSIGNED"};
 		}		
 		
 		public ReportedByQuery(Repository source) : base(source)
@@ -106,12 +112,9 @@ namespace BugzillaInterface
 		}
 	}
 	
-	public class QueryService
+	public static class QueryService
 	{
-		public Type[] QueryTypes{get;set;}
-		public QueryService ()
-		{
-		}
+		public static Type[] QueryTypes = new Type[]{typeof(BaseQuery), typeof(ReportedByQuery)};
 	}
 	
 	public class Query
@@ -146,6 +149,7 @@ namespace BugzillaInterface
 		{
 			Source = SplatterCore.Instance.Sources[SourceID];
 			BaseQuery query1 = new ReportedByQuery();
+			Generator = query1;
 			query1.SourceId = SourceID;
 			query1.Configure();
 			List<BugReport> results = query1.GetQueryResults();
