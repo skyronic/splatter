@@ -47,6 +47,8 @@ namespace BugzillaInterface
 			model = new ListStore(typeof(string));
 			optionTreeView.Model = model;
 			
+			optionTreeView.Selection.Mode = SelectionMode.Multiple;
+			
 		}
 		
 		public ListStore model;

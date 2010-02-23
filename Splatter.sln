@@ -7,12 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BugzillaInterface", "Bugzil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{834DF085-80EF-40A2-9669-C3C4AFDEE773}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xmlrpc", "XmlRpcLib\xmlrpc.csproj", "{1B4B0A58-0AFB-4090-91DD-18912CC7DE65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B4B0A58-0AFB-4090-91DD-18912CC7DE65}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1B4B0A58-0AFB-4090-91DD-18912CC7DE65}.Debug|x86.Build.0 = Debug|Any CPU
+		{1B4B0A58-0AFB-4090-91DD-18912CC7DE65}.Release|x86.ActiveCfg = Release|Any CPU
+		{1B4B0A58-0AFB-4090-91DD-18912CC7DE65}.Release|x86.Build.0 = Release|Any CPU
 		{35995E1D-6813-4592-9400-1BE519445256}.Debug|x86.ActiveCfg = Debug|x86
 		{35995E1D-6813-4592-9400-1BE519445256}.Debug|x86.Build.0 = Debug|x86
 		{35995E1D-6813-4592-9400-1BE519445256}.Release|x86.ActiveCfg = Release|x86

@@ -19,11 +19,9 @@ Description: Desktop bug tracker client for GNOME
  Splatter is a tool that can connect to multiple bug trackers on seperate
  platforms and execute complex queries and download bugreports and cache
  them locally for viewing and searching.
-
  Features:
   - Connects to bugzilla 3.4 using XML-RPC, and
   - Query bugs by product, people, severity, status, summary, comments and more.
   - Saves all bugs offline for faster and more efficient browsing.
   - Comment on bugs locally.
- 
  Splatter is currently very early in development.

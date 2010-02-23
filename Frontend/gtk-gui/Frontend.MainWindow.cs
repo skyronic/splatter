@@ -96,7 +96,6 @@ namespace Frontend
 			this.statusLabel.Name = "statusLabel";
 			this.statusLabel.Xpad = 13;
 			this.statusLabel.Xalign = 0f;
-			this.statusLabel.LabelProp = global::Mono.Unix.Catalog.GetString ("label5");
 			this.statusbar1.Add (this.statusLabel);
 			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.statusLabel]));
 			w6.Position = 2;

@@ -1,0 +1,4 @@
+/home/anirudhs/Projects/Splatter/bin/CookComputing.XmlRpcV2.dll.mdb
+/home/anirudhs/Projects/Splatter/bin/CookComputing.XmlRpcV2.dll
+/home/anirudhs/Projects/Splatter/XmlRpcLib/obj/Debug/CookComputing.XmlRpcV2.dll
+/home/anirudhs/Projects/Splatter/XmlRpcLib/obj/Debug/CookComputing.XmlRpcV2.dll.mdb

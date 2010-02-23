@@ -38,6 +38,7 @@ namespace Frontend
 			MainWindow win = new MainWindow ();
 			win.Show ();
 			Application.Run ();
+			
 		}
 	}
 }
