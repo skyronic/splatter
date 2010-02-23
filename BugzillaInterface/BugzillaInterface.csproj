@@ -50,6 +50,7 @@
     <Compile Include="gtk-gui\BugzillaInterface.StatusFilterWidget.cs" />
     <Compile Include="QueryGUI\ImportanceWidget.cs" />
     <Compile Include="gtk-gui\BugzillaInterface.ImportanceWidget.cs" />
+    <Compile Include="SecurityCertificateHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CookComputing.XmlRpcV2, Version=2.4.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d">
