@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Splatter
+Comment=Track bugs on your desktop
+GenericName=Bug tracking client
+Exec=splatter
+Icon=splatter
+StartupNotify=false
+Terminal=false
+Type=Application
+Categories=Development

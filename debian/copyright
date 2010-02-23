@@ -1,0 +1,8 @@
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?rev=135&sc=0
+Name: splatter
+Maintainer: Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
+Upstream-Source: http://github.com/ninjagod/splatter/downloads
+
+Files: *
+Copyright: 2010, Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
+License: MIT
