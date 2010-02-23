@@ -1,10 +1,10 @@
 // 
-// Main.cs
+// TrustedConnectionsUI.cs
 //  
 // Author:
-//       Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
+//       sanjoy <${AuthorEmail}>
 // 
-// Copyright (c) 2010 Anirudh Sanjeev
+// Copyright (c) 2010 sanjoy
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,21 +25,30 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
+using System.Threading;
+using BugzillaInterface;
 using Gtk;
 
 namespace Frontend
 {
-	class MainClass
+
+	/// <summary>
+	/// Sample class which basically allows every untrusted connection to pass through.
+	/// </summary>
+	public class UntrustedConnectionProxy
 	{
-		public static void Main (string[] args)
-		{
-			UntrustedConnectionProxy.Setup();
-			Application.Init ();
-			MainWindow win = new MainWindow ();
-			win.Show ();
-			Application.Run ();
+	
+		public static SecurityCertificateHandler.CertificateAllowanceState SampleHandler (string thumbPrint) {
+			Console.WriteLine ("Allowing permanent connection to \"" + thumbPrint + "\"");
+			// TODO Present an interface to the user.
+			return SecurityCertificateHandler.CertificateAllowanceState.AlwaysAllow;
+		}		
+		
+		public static void Setup () {
+			SecurityCertificateHandler.PromptMethod = UntrustedConnectionProxy.SampleHandler;
 		}
+		
 	}
 }
-

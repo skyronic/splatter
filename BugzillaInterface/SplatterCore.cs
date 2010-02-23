@@ -85,12 +85,16 @@ namespace BugzillaInterface
 				SaveState();
 			}
 		}
+		
 		public void TestLoggedInStuff ()
 		{
 			Query q1 = Queries[0];
 			//q1.TestStuff();
 			q1.TestLoggedInStuff();
 		}
+		
+		const string configFileName = "config.xml";
+		const string allowFileName = "allow.xml";
 		
 		public void SaveState()
 		{
@@ -105,10 +109,11 @@ namespace BugzillaInterface
 				System.IO.Directory.CreateDirectory (configFolderRoot);
 			}
 			
-			string configFilePath = Path.Combine (configFolderRoot, "config.xml");
-			string allowedFilePath = Path.Combine (configFolderRoot, "allowed.xml");
+			string configFilePath = Path.Combine (configFolderRoot, configFileName);
+			string allowedFilePath = Path.Combine (configFolderRoot, allowFileName);
 			
 			Console.WriteLine ("Saving configuration to " + configFilePath);
+			Console.WriteLine ("Saving list of allowed thumbprints to " + configFilePath);
 			
 			/*XmlAttributes attrs = new XmlAttributes();
 			
@@ -151,12 +156,13 @@ namespace BugzillaInterface
 
 		}
 		
+
 		public static void LoadState()
 		{
 		
 			string configFolder = Path.Combine (System.Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "splatter");
-			string filePath = Path.Combine (configFolder, "config.xml");
-			string allowedCertificatesPath = Path.Combine (configFolder, "allow.xml");
+			string filePath = Path.Combine (configFolder, configFileName);
+			string allowedCertificatesPath = Path.Combine (configFolder, allowFileName);
 			
 			Console.WriteLine ("Loading configuration from " + filePath);
 			Console.WriteLine ("Loading list of allowed untrusted connections from " + filePath);

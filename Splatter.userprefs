@@ -3,21 +3,21 @@
   <MonoDevelop.Ide.DebuggingService>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService>
-  <MonoDevelop.Ide.Workbench ActiveDocument="BugzillaInterface/SplatterCore.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Frontend/UntrustedConnectionProxy.cs" ctype="Workbench">
     <Files>
-      <File FileName="BugzillaInterface/SplatterCore.cs" Line="130" Column="7" />
-      <File FileName="BugzillaInterface/SecurityCertificateHandler.cs" Line="114" Column="2" />
-      <File FileName="Frontend/UntrustedConnectionsUI.cs" Line="46" Column="1" />
+      <File FileName="BugzillaInterface/SplatterCore.cs" Line="54" Column="1" />
+      <File FileName="BugzillaInterface/SecurityCertificateHandler.cs" Line="104" Column="1" />
+      <File FileName="Frontend/UntrustedConnectionProxy.cs" Line="50" Column="85" />
       <File FileName="Frontend/Main.cs" Line="37" Column="1" />
       <File FileName="Frontend/NewSourceDialog.cs" Line="76" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="BugzillaInterface" expanded="True">
-            <Node name="SplatterCore.cs" selected="True" />
+          <Node name="BugzillaInterface" expanded="True" />
+          <Node name="Frontend" expanded="True">
+            <Node name="UntrustedConnectionProxy.cs" selected="True" />
           </Node>
-          <Node name="Frontend" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
