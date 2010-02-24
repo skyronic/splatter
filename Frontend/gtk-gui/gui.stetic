@@ -445,7 +445,6 @@ You'll need to test the query again if you make any changes to the filters.</pro
   </widget>
   <widget class="Gtk.Dialog" id="Frontend.NewSourceDialog" design-size="350 289">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">dialog1</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">2</property>
     <property name="HelpButton">False</property>

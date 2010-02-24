@@ -47,7 +47,6 @@ namespace Frontend
 			global::Stetic.Gui.Initialize (this);
 			// Widget Frontend.NewSourceDialog
 			this.Name = "Frontend.NewSourceDialog";
-			this.Title = global::Mono.Unix.Catalog.GetString ("dialog1");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			// Internal child Frontend.NewSourceDialog.VBox
 			global::Gtk.VBox w1 = this.VBox;

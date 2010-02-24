@@ -40,6 +40,25 @@ namespace Frontend
 			target = new Repository();
 			target.Name = nameEntry.Text;
 			target.Url = urlEntry.Text;
+			// Construct a URI from the Url
+			if(Uri.IsWellFormedUriString(target.Url, UriKind.Absolute))
+			{
+			Uri endpoint = new Uri(target.Url);
+			
+			// check whether the last portion is an xmlrpc.cgi
+			string[] pathComponents = endpoint.AbsolutePath.Split(new char[]{'/'});
+			if(pathComponents[pathComponents.Length - 1] != "xmlrpc.cgi")
+			{
+				// emit xmlrpc.cgi to the url
+					// Trust the user :)
+					if(target.Url[target.Url.Length - 1] != '/')
+						target.Url += "/";
+					
+					target.Url += "xmlrpc.cgi";
+				
+			}
+			}
+			
 			target.UserName = usernameEntry.Text;
 			target.Password = passwordEntry.Text;
 			target.Proxy = proxyEntry.Text;
@@ -94,8 +113,5 @@ namespace Frontend
 			this.HideAll();
 			this.Dispose();
 		}
-		
-		
-		
 	}
 }
