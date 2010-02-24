@@ -124,7 +124,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Dialog" id="Frontend.AddQueryDialog" design-size="611 469">
+  <widget class="Gtk.Dialog" id="Frontend.AddQueryDialog" design-size="611 549">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Add new Query</property>
     <property name="Icon">stock:gtk-add Menu</property>
@@ -252,7 +252,7 @@
                         <child>
                           <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
                             <property name="MemberName" />
-                            <property name="HeightRequest">260</property>
+                            <property name="HeightRequest">350</property>
                             <property name="ShadowType">In</property>
                             <child>
                               <widget class="Gtk.TreeView" id="queryTreeView">

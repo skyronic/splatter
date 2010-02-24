@@ -166,7 +166,7 @@ namespace Frontend
 			this.GtkAlignment3.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment3.Gtk.Container+ContainerChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
-			this.GtkScrolledWindow.HeightRequest = 260;
+			this.GtkScrolledWindow.HeightRequest = 350;
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
@@ -307,7 +307,7 @@ namespace Frontend
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 611;
-			this.DefaultHeight = 469;
+			this.DefaultHeight = 549;
 			this.Show ();
 			this.sourceSelector.Changed += new global::System.EventHandler (this.ComboBoxChanged);
 			this.addSourceButton.Clicked += new global::System.EventHandler (this.AddSourceButtonClicked);

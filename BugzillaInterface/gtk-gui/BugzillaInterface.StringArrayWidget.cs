@@ -40,6 +40,7 @@ namespace BugzillaInterface
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
 			this.optionTreeView = new global::Gtk.TreeView ();
+			this.optionTreeView.HeightRequest = 120;
 			this.optionTreeView.Sensitive = false;
 			this.optionTreeView.CanFocus = true;
 			this.optionTreeView.Name = "optionTreeView";
