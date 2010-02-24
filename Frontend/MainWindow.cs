@@ -80,12 +80,36 @@ namespace Frontend
 			treeview1.AppendColumn(statusColumn);
 			treeview1.AppendColumn(summaryColumn);
 			
+			
+			treeview1.RowActivated += BugTreeRowActivated;
+			
 			bugStore = new TreeStore(typeof(string),typeof(string),typeof(string),typeof(string),typeof(string));
 			treeview1.Model = bugStore;
 			SplatterCore.LoadState();
 			
 			SyncTreeviewWithBugs();
 			
+		}
+
+		void BugTreeRowActivated (object o, RowActivatedArgs args)
+		{
+			Console.WriteLine ("Row activated");
+			
+			// Check the length of the indices array in the path. We are ideally looking for something which is
+			// in the first level of nesting.
+			if(args.Path.Indices.Length != 1)
+			{
+				int queryIndex = args.Path.Indices[0];
+				int bugIndex = args.Path.Indices[1];
+				
+				// Retrieve the bug
+				BugReport target = SplatterCore.Instance.Queries[queryIndex].Bugs[bugIndex];
+				Console.WriteLine ("Fetching comments for " + target.id);
+				foreach(var com in target.Comments)
+				{
+					Console.WriteLine (com.ToString());
+				}
+			}
 		}
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -109,14 +133,16 @@ namespace Frontend
 				foreach (Query query in SplatterCore.Instance.Queries) {
 					statusLabel.Text = "Refreshing query " + query.Generator.Title;
 					progressbar1.Fraction = (double)(index + 1) / (double)(TotalQueries + 1);
-					query.Execute();
+					//query.Execute(); // TODO: Change back to this
+					query.FetchComments();
+					
 				}
 				progressbar1.Fraction = 1;
 				statusLabel.Text = "Refresh complete!";
 				
 				// Save and sync
 				SplatterCore.Instance.SaveState();
-				SyncTreeviewWithBugs();
+				//SyncTreeviewWithBugs();
 			}
 		}
 
@@ -150,6 +176,10 @@ namespace Frontend
 					
 					Console.WriteLine ("Deleting query with index {0}", index);
 					SplatterCore.Instance.Queries.RemoveAt(index);
+					
+					// Save state and sync state
+					SplatterCore.Instance.SaveState();
+					SyncTreeviewWithBugs();
 				}
 				
 			}

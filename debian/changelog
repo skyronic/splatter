@@ -1,3 +1,8 @@
+splatter (0.1-2.1) karmic; urgency=low
+
+  * Fixed bugs
+
+ -- Anirudh Sanjeev <anirudh@anirudhsanjeev.org>  Fri, 24 Feb 2010 15:36:37 +0000
 splatter (0.1-1) lucid; urgency=low
 
   * Initial release.
