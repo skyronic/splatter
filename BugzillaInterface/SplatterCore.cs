@@ -93,7 +93,7 @@ namespace BugzillaInterface
 			q1.TestLoggedInStuff();
 		}
 		
-		const string configFileName = "config.xml";
+		const string dataFileName = "splatterData.xml";
 		const string allowFileName = "allow.xml";
 		
 		public void SaveState()
@@ -109,11 +109,11 @@ namespace BugzillaInterface
 				System.IO.Directory.CreateDirectory (configFolderRoot);
 			}
 			
-			string configFilePath = Path.Combine (configFolderRoot, configFileName);
+			string dataFilePath = Path.Combine (configFolderRoot, dataFileName);
 			string allowedFilePath = Path.Combine (configFolderRoot, allowFileName);
 			
-			Console.WriteLine ("Saving configuration to " + configFilePath);
-			Console.WriteLine ("Saving list of allowed thumbprints to " + configFilePath);
+			Console.WriteLine ("Saving configuration to " + dataFilePath);
+			Console.WriteLine ("Saving list of allowed thumbprints to " + dataFilePath);
 			
 			/*XmlAttributes attrs = new XmlAttributes();
 			
@@ -125,8 +125,8 @@ namespace BugzillaInterface
 			XmlAttributeOverrides attrOverRides = new XmlAttributeOverrides();
 			attrOverRides.Add(typeof(Query), "Generator", attrs);*/
 			
-			if(File.Exists (configFilePath)) {
-				File.Move(configFilePath, configFilePath + ".bak");
+			if(File.Exists (dataFilePath)) {
+				File.Move(dataFilePath, dataFilePath + ".bak");
 				// Pray this works
 			}		
 			
@@ -135,7 +135,7 @@ namespace BugzillaInterface
 			}		
 			
 			XmlSerializer configurationSerializer = new XmlSerializer(typeof(SplatterCore));
-			FileStream configFile = new FileStream(configFilePath, FileMode.Create, FileAccess.Write);
+			FileStream configFile = new FileStream(dataFilePath, FileMode.Create, FileAccess.Write);
 			TextWriter configFileWriter = new StreamWriter(configFile);
 			
 			XmlSerializer thumbprintSerializer = new XmlSerializer(typeof(List<string>));
@@ -153,6 +153,21 @@ namespace BugzillaInterface
 			allowedFile.Close();
 			
 			/* @Andy Why delete the backup file at all ? */
+			
+			// Otherwise, we get an error like this:
+			// System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation. ---> System.IO.IOException: Win32 IO returned ERROR_ALREADY_EXISTS. Path: 
+			// - Andy
+			
+			if(File.Exists (dataFilePath + ".bak"))
+			{
+				File.Delete (dataFilePath + ".bak");				
+			}
+			
+			
+			if(File.Exists (allowedFilePath + ".bak"))
+			{
+				File.Delete (allowedFilePath + ".bak");				
+			}
 
 		}
 		
@@ -161,7 +176,7 @@ namespace BugzillaInterface
 		{
 		
 			string configFolder = Path.Combine (System.Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "splatter");
-			string filePath = Path.Combine (configFolder, configFileName);
+			string filePath = Path.Combine (configFolder, dataFileName);
 			string allowedCertificatesPath = Path.Combine (configFolder, allowFileName);
 			
 			Console.WriteLine ("Loading configuration from " + filePath);

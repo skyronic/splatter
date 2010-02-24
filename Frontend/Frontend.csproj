@@ -72,6 +72,7 @@
     <Compile Include="gtk-gui\Frontend.NewSourceDialog.cs" />
     <Compile Include="gtk-gui\Frontend.MainWindow.cs" />
     <Compile Include="UntrustedConnectionsUI.cs" />
+    <Compile Include="UntrustedConnectionProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugzillaInterface\BugzillaInterface.csproj">
