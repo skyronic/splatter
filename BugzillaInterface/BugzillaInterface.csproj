@@ -50,6 +50,7 @@
     <Compile Include="gtk-gui\BugzillaInterface.StatusFilterWidget.cs" />
     <Compile Include="QueryGUI\ImportanceWidget.cs" />
     <Compile Include="gtk-gui\BugzillaInterface.ImportanceWidget.cs" />
+    <Compile Include="SecurityCertificateHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

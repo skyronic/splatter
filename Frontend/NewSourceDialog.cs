@@ -46,22 +46,22 @@ namespace Frontend
 			
 			// disable the verify button
 			verifyButton.Sensitive = false;
-			statusLabel.Text = "Status: <b>Verifying</b>";
+			statusLabel.Markup = "Status: <b>Verifying</b>";
 			
 			if(target.LoginAndVerify())
 			{
-				statusLabel.Text = "Status: Login Success! Getting details. Please wait";
+				statusLabel.Markup = "Status: Login Success! Getting details. Please wait";
 				target.FetchLegalValues();
 				
 				// login success
-				statusLabel.Text = "Status: <b>Verified!</b>";
+				statusLabel.Markup = "Status: <b>Verified!</b>";
 				
 				// enable the button
 				buttonOk.Sensitive = true;			
 			}
 			else
 			{
-				statusLabel.Text = "Status: <b>Verification failed</b>";
+				statusLabel.Markup = "Status: <b>Verification failed</b>";
 				
 				// give user chance to modify
 				verifyButton.Sensitive = true;
@@ -99,4 +99,3 @@ namespace Frontend
 		
 	}
 }
-

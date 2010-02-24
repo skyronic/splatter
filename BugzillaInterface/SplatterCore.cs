@@ -85,6 +85,7 @@ namespace BugzillaInterface
 				SaveState();
 			}
 		}
+		
 		public void TestLoggedInStuff ()
 		{
 			Query q1 = Queries[0];
@@ -92,11 +93,31 @@ namespace BugzillaInterface
 			q1.TestLoggedInStuff();
 		}
 		
+		const string configFileName = "config.xml";
+		const string allowFileName = "allow.xml";
+		
 		public void SaveState()
 		{
-			string filePath = "huha.xml"; // In true kgp style
+		
+			/* The configuration regarding the various sources is stored in config.xml and the list of hosts who are
+			 * allowed despite invalid certificates is stored in allowed.xml. This was done to allow one to easily 'reset'
+			 * the security allowances by deleting a single file. */
+		
+			string configFolderRoot = Path.Combine (System.Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "splatter");
+			
+			if (!System.IO.Directory.Exists (configFolderRoot)) {
+				System.IO.Directory.CreateDirectory (configFolderRoot);
+			}
+			
+			string configFilePath = Path.Combine (configFolderRoot, configFileName);
+			string allowedFilePath = Path.Combine (configFolderRoot, allowFileName);
+			
+			Console.WriteLine ("Saving configuration to " + configFilePath);
+			Console.WriteLine ("Saving list of allowed thumbprints to " + configFilePath);
 			
 			/*XmlAttributes attrs = new XmlAttributes();
+			
+			TODO ??? Why is this here?
 			
 			XmlElementAttribute attr1 = new XmlElementAttribute("ReportedByQuery",typeof(ReportedByQuery));
 			attrs.XmlElements.Add(attr1);
@@ -104,41 +125,78 @@ namespace BugzillaInterface
 			XmlAttributeOverrides attrOverRides = new XmlAttributeOverrides();
 			attrOverRides.Add(typeof(Query), "Generator", attrs);*/
 			
-			if(File.Exists (filePath))
-			{
-				File.Move(filePath, filePath + ".bak");
-				// pray this works
+			if(File.Exists (configFilePath)) {
+				File.Move(configFilePath, configFilePath + ".bak");
+				// Pray this works
 			}		
 			
-			XmlSerializer ser = new XmlSerializer(typeof(SplatterCore));
-			FileStream outfile = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-			TextWriter textWriter = new StreamWriter(outfile);
+			if(File.Exists (allowedFilePath)) {
+				File.Move(allowedFilePath, allowedFilePath + ".bak");
+			}		
 			
+			XmlSerializer configurationSerializer = new XmlSerializer(typeof(SplatterCore));
+			FileStream configFile = new FileStream(configFilePath, FileMode.Create, FileAccess.Write);
+			TextWriter configFileWriter = new StreamWriter(configFile);
 			
-			ser.Serialize(textWriter, this);
-			textWriter.Close();
-			outfile.Close();
+			XmlSerializer thumbprintSerializer = new XmlSerializer(typeof(List<string>));
+			FileStream allowedFile = new FileStream(allowedFilePath, FileMode.Create, FileAccess.Write);
+			TextWriter allowedFileWriter = new StreamWriter(allowedFile);
 			
-			if(File.Exists(filePath + ".bak"))
-			{
-				File.Delete(filePath + ".bak");
-			}
+			configurationSerializer.Serialize(configFileWriter, this);
+			
+			thumbprintSerializer.Serialize (allowedFileWriter, SecurityCertificateHandler.Instance.AllowedThumbPrints);
+			
+			configFileWriter.Close();
+			configFile.Close();
+			
+			allowedFileWriter.Close();
+			allowedFile.Close();
+			
+			/* @Andy Why delete the backup file at all ? */
+
 		}
 		
+
 		public static void LoadState()
 		{
-			string filePath = "huha.xml";
-			if(File.Exists(filePath))
-			{
-				XmlSerializer ser = new XmlSerializer(typeof(SplatterCore));
-				TextReader reader = new StreamReader(filePath);
+		
+			string configFolder = Path.Combine (System.Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "splatter");
+			string filePath = Path.Combine (configFolder, configFileName);
+			string allowedCertificatesPath = Path.Combine (configFolder, allowFileName);
+			
+			Console.WriteLine ("Loading configuration from " + filePath);
+			Console.WriteLine ("Loading list of allowed untrusted connections from " + filePath);
+			SecurityCertificateHandler.Initialize ();
+			
+			try {
+				if(File.Exists(filePath)) {
 				
-				SplatterCore newCore = (SplatterCore)ser.Deserialize(reader);
+					XmlSerializer ser = new XmlSerializer(typeof(SplatterCore));
+					TextReader reader = new StreamReader(filePath);
+					
+					SplatterCore newCore = (SplatterCore)ser.Deserialize(reader);
+						
+					// TODO: is it safe to do this?
+					
+					SplatterCore.Instance = newCore;
+					reader.Close();
+						
+				}
 				
-				// TODO: is it safe to do this?
-				SplatterCore.Instance = newCore;
-				reader.Close();
+				if(File.Exists(allowedCertificatesPath)) {
+				
+					XmlSerializer thumbPrintsSerializer = new XmlSerializer (typeof (System.Collections.Generic.List <string>));
+					TextReader reader = new StreamReader(allowedCertificatesPath);
+					SecurityCertificateHandler.Instance.AllowedThumbPrints = (List <string>) thumbPrintsSerializer.Deserialize (reader);
+					
+					reader.Close();
+						
+				}
+				
+			} catch (XmlException exception) {
+				/* Don't let bad xml do wreak havoc */
 			}
+			
 		}
 		
 		public void PostDeserialize()
@@ -172,4 +230,3 @@ namespace BugzillaInterface
 	}
 	
 }
-
