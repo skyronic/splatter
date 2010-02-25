@@ -123,7 +123,48 @@ namespace Frontend
 					
 					commentVBox.PackStart(commentWidget, true, true, 0);
 				}
+				
+				// Set the bug details
+				int row_id = 0;
+				
+				bugPropertyTable.Resize(9, 2);
+				
+				foreach (Widget child in bugPropertyTable.Children) {
+					bugPropertyTable.Remove(child);
+				}
+				
+				StringValueToTable(bugPropertyTable, "Bug ID", target.id.ToString(), ref row_id);
+				StringValueToTable(bugPropertyTable, "Component", target.component, ref row_id);
+				StringValueToTable(bugPropertyTable, "Product", target.product, ref row_id);
+				StringValueToTable(bugPropertyTable, "Assigned To", target.assigned_to, ref row_id);
+				StringValueToTable(bugPropertyTable, "Resolution", target.resolution, ref row_id);
+				StringValueToTable(bugPropertyTable, "Status", target.status, ref row_id);
+				StringValueToTable(bugPropertyTable, "Severity", target.severity, ref row_id);
+				StringValueToTable(bugPropertyTable, "Priority", target.priority, ref row_id);
+				StringValueToTable(bugPropertyTable, "Created", target.creation_time.ToString(), ref row_id);
+				
 			}
+		}
+		
+		protected void StringValueToTable (Table container, string name, string valueText, ref int row)
+		{
+			Label targetLabel = new Label();
+			Entry target = new Entry();
+			
+			target.Text = valueText;
+			target.Sensitive = false;
+			target.Show();
+			
+			targetLabel.Text = name;
+			targetLabel.Xalign = 0;
+			targetLabel.Xpad = 13;
+			targetLabel.Show();
+			
+			container.Attach(targetLabel, (uint)0, (uint)1, (uint)row, (uint)(row + 1), AttachOptions.Fill, AttachOptions.Fill, 0, 0);
+			container.Attach(target, (uint)1, (uint)2, (uint)row, (uint)(row + 1), AttachOptions.Expand|AttachOptions.Fill, AttachOptions.Expand|AttachOptions.Fill, 0, 0);
+			
+			row += 1;
+			Console.WriteLine ("Finished writing to row {0}", row);
 		}
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)

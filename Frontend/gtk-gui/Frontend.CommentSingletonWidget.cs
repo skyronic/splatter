@@ -20,8 +20,6 @@ namespace Frontend
 
 		private global::Gtk.Button replyButton;
 
-		private global::Gtk.Button quoteButton;
-
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
@@ -31,7 +29,7 @@ namespace Frontend
 			// Container child Frontend.CommentSingletonWidget.Gtk.Container+ContainerChild
 			this.hbox1 = new global::Gtk.HBox ();
 			this.hbox1.Name = "hbox1";
-			this.hbox1.Spacing = 6;
+			this.hbox1.Spacing = 5;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.vbox3 = new global::Gtk.VBox ();
 			this.vbox3.Name = "vbox3";
@@ -54,7 +52,6 @@ namespace Frontend
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
 			this.commentContent = new global::Gtk.TextView ();
-			this.commentContent.WidthRequest = 200;
 			this.commentContent.CanFocus = true;
 			this.commentContent.Name = "commentContent";
 			this.commentContent.Editable = false;
@@ -67,11 +64,8 @@ namespace Frontend
 			this.hbox1.Add (this.vbox3);
 			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox3]));
 			w4.Position = 0;
-			w4.Expand = false;
-			w4.Fill = false;
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.vbox4 = new global::Gtk.VBox ();
-			this.vbox4.WidthRequest = 35;
 			this.vbox4.Name = "vbox4";
 			this.vbox4.Spacing = 6;
 			// Container child vbox4.Gtk.Box+BoxChild
@@ -107,34 +101,11 @@ namespace Frontend
 			w14.Position = 1;
 			w14.Expand = false;
 			w14.Fill = false;
-			// Container child vbox4.Gtk.Box+BoxChild
-			this.quoteButton = new global::Gtk.Button ();
-			this.quoteButton.TooltipMarkup = "Quote";
-			this.quoteButton.CanFocus = true;
-			this.quoteButton.Name = "quoteButton";
-			this.quoteButton.UseUnderline = true;
-			// Container child quoteButton.Gtk.Container+ContainerChild
-			global::Gtk.Alignment w15 = new global::Gtk.Alignment (0.5f, 0.5f, 0f, 0f);
-			// Container child GtkAlignment.Gtk.Container+ContainerChild
-			global::Gtk.HBox w16 = new global::Gtk.HBox ();
-			w16.Spacing = 2;
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Image w17 = new global::Gtk.Image ();
-			w17.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-indent", global::Gtk.IconSize.Menu);
-			w16.Add (w17);
-			// Container child GtkHBox.Gtk.Container+ContainerChild
-			global::Gtk.Label w19 = new global::Gtk.Label ();
-			w16.Add (w19);
-			w15.Add (w16);
-			this.quoteButton.Add (w15);
-			this.vbox4.Add (this.quoteButton);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.quoteButton]));
-			w23.Position = 2;
-			w23.Expand = false;
-			w23.Fill = false;
 			this.hbox1.Add (this.vbox4);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox4]));
-			w24.Position = 1;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.vbox4]));
+			w15.Position = 1;
+			w15.Expand = false;
+			w15.Fill = false;
 			this.Add (this.hbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();

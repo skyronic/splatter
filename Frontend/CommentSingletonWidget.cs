@@ -27,6 +27,7 @@
 // THE SOFTWARE.
 using System;
 using BugzillaInterface;
+using Pango;
 namespace Frontend
 {
 	[System.ComponentModel.ToolboxItem(true)]
@@ -43,6 +44,11 @@ namespace Frontend
 		{
 			Target = target;
 			commentContent.Buffer.Text = target.text;
+			FontDescription monospace = FontDescription.FromString("monospace 8");
+			
+			commentContent.ModifyFont(monospace);
+			monospace.Dispose();
+			
 			nameLabel.Text = target.author;
 		}
 	}

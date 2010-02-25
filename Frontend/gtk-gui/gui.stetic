@@ -124,7 +124,49 @@
                 <child>
                   <widget class="Gtk.Label" id="label5">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">page1</property>
+                    <property name="Xpad">16</property>
+                    <property name="Ypad">3</property>
+                    <property name="LabelProp" translatable="yes">Comments</property>
+                  </widget>
+                  <packing>
+                    <property name="type">tab</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Table" id="bugPropertyTable">
+                    <property name="MemberName" />
+                    <property name="NRows">3</property>
+                    <property name="NColumns">2</property>
+                    <property name="RowSpacing">6</property>
+                    <property name="ColumnSpacing">6</property>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                    <child>
+                      <placeholder />
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="label6">
+                    <property name="MemberName" />
+                    <property name="Xpad">16</property>
+                    <property name="LabelProp" translatable="yes">Bug Details</property>
                   </widget>
                   <packing>
                     <property name="type">tab</property>
@@ -879,13 +921,13 @@ You'll need to test the query again if you make any changes to the filters.</pro
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="Frontend.CommentSingletonWidget" design-size="259 259">
+  <widget class="Gtk.Bin" id="Frontend.CommentSingletonWidget" design-size="259 154">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <child>
       <widget class="Gtk.HBox" id="hbox1">
         <property name="MemberName" />
-        <property name="Spacing">6</property>
+        <property name="Spacing">5</property>
         <child>
           <widget class="Gtk.VBox" id="vbox3">
             <property name="MemberName" />
@@ -912,7 +954,6 @@ You'll need to test the query again if you make any changes to the filters.</pro
                 <child>
                   <widget class="Gtk.TextView" id="commentContent">
                     <property name="MemberName" />
-                    <property name="WidthRequest">200</property>
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
                     <property name="Editable">False</property>
@@ -924,21 +965,18 @@ You'll need to test the query again if you make any changes to the filters.</pro
               </widget>
               <packing>
                 <property name="Position">1</property>
-                <property name="AutoSize">True</property>
+                <property name="AutoSize">False</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="Position">0</property>
-            <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
+            <property name="AutoSize">False</property>
           </packing>
         </child>
         <child>
           <widget class="Gtk.VBox" id="vbox4">
             <property name="MemberName" />
-            <property name="WidthRequest">35</property>
             <property name="Spacing">6</property>
             <child>
               <widget class="Gtk.Label" id="label3">
@@ -968,27 +1006,12 @@ You'll need to test the query again if you make any changes to the filters.</pro
                 <property name="Fill">False</property>
               </packing>
             </child>
-            <child>
-              <widget class="Gtk.Button" id="quoteButton">
-                <property name="MemberName" />
-                <property name="Tooltip" translatable="yes">Quote</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-indent Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-              </widget>
-              <packing>
-                <property name="Position">2</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
           </widget>
           <packing>
             <property name="Position">1</property>
             <property name="AutoSize">False</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
           </packing>
         </child>
       </widget>

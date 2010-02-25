@@ -30,6 +30,10 @@ namespace Frontend
 
 		private global::Gtk.Label label5;
 
+		private global::Gtk.Table bugPropertyTable;
+
+		private global::Gtk.Label label6;
+
 		private global::Gtk.Statusbar statusbar1;
 
 		private global::Gtk.ProgressBar progressbar1;
@@ -98,7 +102,7 @@ namespace Frontend
 			this.notebook2 = new global::Gtk.Notebook ();
 			this.notebook2.CanFocus = true;
 			this.notebook2.Name = "notebook2";
-			this.notebook2.CurrentPage = 0;
+			this.notebook2.CurrentPage = 1;
 			// Container child notebook2.Gtk.Notebook+NotebookChild
 			this.scrolledwindow2 = new global::Gtk.ScrolledWindow ();
 			this.scrolledwindow2.CanFocus = true;
@@ -117,13 +121,30 @@ namespace Frontend
 			// Notebook tab
 			this.label5 = new global::Gtk.Label ();
 			this.label5.Name = "label5";
-			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("page1");
+			this.label5.Xpad = 16;
+			this.label5.Ypad = 3;
+			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("Comments");
 			this.notebook2.SetTabLabel (this.scrolledwindow2, this.label5);
 			this.label5.ShowAll ();
+			// Container child notebook2.Gtk.Notebook+NotebookChild
+			this.bugPropertyTable = new global::Gtk.Table (((uint)(3)), ((uint)(2)), false);
+			this.bugPropertyTable.Name = "bugPropertyTable";
+			this.bugPropertyTable.RowSpacing = ((uint)(6));
+			this.bugPropertyTable.ColumnSpacing = ((uint)(6));
+			this.notebook2.Add (this.bugPropertyTable);
+			global::Gtk.Notebook.NotebookChild w9 = ((global::Gtk.Notebook.NotebookChild)(this.notebook2[this.bugPropertyTable]));
+			w9.Position = 1;
+			// Notebook tab
+			this.label6 = new global::Gtk.Label ();
+			this.label6.Name = "label6";
+			this.label6.Xpad = 16;
+			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString ("Bug Details");
+			this.notebook2.SetTabLabel (this.bugPropertyTable, this.label6);
+			this.label6.ShowAll ();
 			this.hpaned1.Add (this.notebook2);
 			this.vbox1.Add (this.hpaned1);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.hpaned1]));
-			w10.Position = 1;
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.hpaned1]));
+			w11.Position = 1;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.statusbar1 = new global::Gtk.Statusbar ();
 			this.statusbar1.Name = "statusbar1";
@@ -132,23 +153,23 @@ namespace Frontend
 			this.progressbar1 = new global::Gtk.ProgressBar ();
 			this.progressbar1.Name = "progressbar1";
 			this.statusbar1.Add (this.progressbar1);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.progressbar1]));
-			w11.Position = 1;
-			w11.Expand = false;
-			w11.Fill = false;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.progressbar1]));
+			w12.Position = 1;
+			w12.Expand = false;
+			w12.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.statusLabel = new global::Gtk.Label ();
 			this.statusLabel.Name = "statusLabel";
 			this.statusLabel.Xpad = 13;
 			this.statusLabel.Xalign = 0f;
 			this.statusbar1.Add (this.statusLabel);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.statusLabel]));
-			w12.Position = 2;
-			this.vbox1.Add (this.statusbar1);
-			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.statusbar1]));
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.statusLabel]));
 			w13.Position = 2;
-			w13.Expand = false;
-			w13.Fill = false;
+			this.vbox1.Add (this.statusbar1);
+			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.statusbar1]));
+			w14.Position = 2;
+			w14.Expand = false;
+			w14.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
