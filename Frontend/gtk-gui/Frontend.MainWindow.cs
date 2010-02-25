@@ -16,9 +16,19 @@ namespace Frontend
 
 		private global::Gtk.Toolbar toolbar3;
 
+		private global::Gtk.HPaned hpaned1;
+
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 
 		private global::Gtk.TreeView treeview1;
+
+		private global::Gtk.Notebook notebook2;
+
+		private global::Gtk.ScrolledWindow scrolledwindow2;
+
+		private global::Gtk.VBox commentVBox;
+
+		private global::Gtk.Label label5;
 
 		private global::Gtk.Statusbar statusbar1;
 
@@ -68,6 +78,11 @@ namespace Frontend
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
+			this.hpaned1 = new global::Gtk.HPaned ();
+			this.hpaned1.CanFocus = true;
+			this.hpaned1.Name = "hpaned1";
+			this.hpaned1.Position = 403;
+			// Container child hpaned1.Gtk.Paned+PanedChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
@@ -76,9 +91,39 @@ namespace Frontend
 			this.treeview1.CanFocus = true;
 			this.treeview1.Name = "treeview1";
 			this.GtkScrolledWindow.Add (this.treeview1);
-			this.vbox1.Add (this.GtkScrolledWindow);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.GtkScrolledWindow]));
-			w4.Position = 1;
+			this.hpaned1.Add (this.GtkScrolledWindow);
+			global::Gtk.Paned.PanedChild w4 = ((global::Gtk.Paned.PanedChild)(this.hpaned1[this.GtkScrolledWindow]));
+			w4.Resize = false;
+			// Container child hpaned1.Gtk.Paned+PanedChild
+			this.notebook2 = new global::Gtk.Notebook ();
+			this.notebook2.CanFocus = true;
+			this.notebook2.Name = "notebook2";
+			this.notebook2.CurrentPage = 0;
+			// Container child notebook2.Gtk.Notebook+NotebookChild
+			this.scrolledwindow2 = new global::Gtk.ScrolledWindow ();
+			this.scrolledwindow2.CanFocus = true;
+			this.scrolledwindow2.Name = "scrolledwindow2";
+			this.scrolledwindow2.ShadowType = ((global::Gtk.ShadowType)(1));
+			// Container child scrolledwindow2.Gtk.Container+ContainerChild
+			global::Gtk.Viewport w5 = new global::Gtk.Viewport ();
+			w5.ShadowType = ((global::Gtk.ShadowType)(0));
+			// Container child GtkViewport.Gtk.Container+ContainerChild
+			this.commentVBox = new global::Gtk.VBox ();
+			this.commentVBox.Name = "commentVBox";
+			this.commentVBox.Spacing = 6;
+			w5.Add (this.commentVBox);
+			this.scrolledwindow2.Add (w5);
+			this.notebook2.Add (this.scrolledwindow2);
+			// Notebook tab
+			this.label5 = new global::Gtk.Label ();
+			this.label5.Name = "label5";
+			this.label5.LabelProp = global::Mono.Unix.Catalog.GetString ("page1");
+			this.notebook2.SetTabLabel (this.scrolledwindow2, this.label5);
+			this.label5.ShowAll ();
+			this.hpaned1.Add (this.notebook2);
+			this.vbox1.Add (this.hpaned1);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.hpaned1]));
+			w10.Position = 1;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.statusbar1 = new global::Gtk.Statusbar ();
 			this.statusbar1.Name = "statusbar1";
@@ -87,29 +132,29 @@ namespace Frontend
 			this.progressbar1 = new global::Gtk.ProgressBar ();
 			this.progressbar1.Name = "progressbar1";
 			this.statusbar1.Add (this.progressbar1);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.progressbar1]));
-			w5.Position = 1;
-			w5.Expand = false;
-			w5.Fill = false;
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.progressbar1]));
+			w11.Position = 1;
+			w11.Expand = false;
+			w11.Fill = false;
 			// Container child statusbar1.Gtk.Box+BoxChild
 			this.statusLabel = new global::Gtk.Label ();
 			this.statusLabel.Name = "statusLabel";
 			this.statusLabel.Xpad = 13;
 			this.statusLabel.Xalign = 0f;
 			this.statusbar1.Add (this.statusLabel);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.statusLabel]));
-			w6.Position = 2;
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.statusbar1[this.statusLabel]));
+			w12.Position = 2;
 			this.vbox1.Add (this.statusbar1);
-			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.statusbar1]));
-			w7.Position = 2;
-			w7.Expand = false;
-			w7.Fill = false;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.statusbar1]));
+			w13.Position = 2;
+			w13.Expand = false;
+			w13.Fill = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 751;
-			this.DefaultHeight = 428;
+			this.DefaultHeight = 540;
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.addAction.Activated += new global::System.EventHandler (this.AddNewQueryClicked);

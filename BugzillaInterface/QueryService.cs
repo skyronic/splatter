@@ -206,9 +206,7 @@ namespace BugzillaInterface
 				object[] comment_list = (object[])bug1_comments["comments"];
 				foreach (XmlRpcStruct comment in comment_list) {
 					//Console.WriteLine(comment["text"].ToString());
-					Console.WriteLine ("Deserializing a comment");
 					Comment obj1 = (Comment)AttemptStructDeserialization (comment, typeof(Comment));
-					Console.WriteLine (obj1.ToString ());
 					Comment target = (Comment)obj1;
 					// find the bug that's in the bug list of queries
 					

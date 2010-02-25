@@ -70,20 +70,20 @@ namespace Frontend
 			summaryColumn.Title = "Summary";
 			CellRendererText summaryColumnCell = new CellRendererText();
 			summaryColumn.PackStart(summaryColumnCell, true);
-			summaryColumn.AddAttribute(summaryColumnCell, "text", 4);
+			summaryColumn.AddAttribute(summaryColumnCell, "text", 0); // TODO: Change this?
 			
 			
 			
-			treeview1.AppendColumn(idColumn);
-			treeview1.AppendColumn(productColumn);
-			treeview1.AppendColumn(severityColumn);
-			treeview1.AppendColumn(statusColumn);
+			//treeview1.AppendColumn(idColumn);
+			//treeview1.AppendColumn(productColumn);
+			//treeview1.AppendColumn(severityColumn);
+			//treeview1.AppendColumn(statusColumn);
 			treeview1.AppendColumn(summaryColumn);
 			
 			
 			treeview1.RowActivated += BugTreeRowActivated;
 			
-			bugStore = new TreeStore(typeof(string),typeof(string),typeof(string),typeof(string),typeof(string));
+			bugStore = new TreeStore(typeof(string));
 			treeview1.Model = bugStore;
 			SplatterCore.LoadState();
 			
@@ -93,7 +93,7 @@ namespace Frontend
 
 		void BugTreeRowActivated (object o, RowActivatedArgs args)
 		{
-			Console.WriteLine ("Row activated");
+			Console.WriteLine ("Row activated + " + args.Path.Indices.Length);
 			
 			// Check the length of the indices array in the path. We are ideally looking for something which is
 			// in the first level of nesting.
@@ -105,9 +105,23 @@ namespace Frontend
 				// Retrieve the bug
 				BugReport target = SplatterCore.Instance.Queries[queryIndex].Bugs[bugIndex];
 				Console.WriteLine ("Fetching comments for " + target.id);
+				
+				// Clear the comment VBox
+				foreach(Widget w in commentVBox.Children)
+				{
+					commentVBox.Remove(w);
+					w.Dispose();
+				}
+				
 				foreach(var com in target.Comments)
 				{
 					Console.WriteLine (com.ToString());
+					CommentSingletonWidget commentWidget = new CommentSingletonWidget();
+					commentWidget.SetComment(com);
+					commentWidget.ShowAll();
+					
+					
+					commentVBox.PackStart(commentWidget, true, true, 0);
 				}
 			}
 		}
@@ -159,7 +173,8 @@ namespace Frontend
 				TreeIter queryIter = bugStore.AppendValues(q.Generator.Title);
 				foreach(BugReport bug in q.Bugs)
 				{
-					bugStore.AppendValues(queryIter, bug.id.ToString(), bug.product, bug.severity, bug.status, bug.summary);
+					//bugStore.AppendValues(queryIter, bug.id.ToString(), bug.product, bug.severity, bug.status, bug.summary);
+					bugStore.AppendValues(queryIter, bug.summary);
 				}
 			}
 		}

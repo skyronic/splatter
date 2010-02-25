@@ -73,6 +73,8 @@
     <Compile Include="gtk-gui\Frontend.MainWindow.cs" />
     <Compile Include="UntrustedConnectionsUI.cs" />
     <Compile Include="UntrustedConnectionProxy.cs" />
+    <Compile Include="CommentSingletonWidget.cs" />
+    <Compile Include="gtk-gui\Frontend.CommentSingletonWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BugzillaInterface\BugzillaInterface.csproj">
