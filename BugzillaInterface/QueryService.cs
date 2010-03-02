@@ -170,10 +170,52 @@ namespace BugzillaInterface
 			Source = SplatterCore.Instance.Sources[SourceID];
 			try {
 				List<BugReport> results = Generator.GetQueryResults ();
-				BugIds = new List<int> ();
-				Bugs = results;
-				foreach (var bug in Bugs) {
-					BugIds.Add (bug.id);
+				if(Bugs == null || BugIds == null)
+				{
+					BugIds = new List<int>();
+					Bugs = new List<BugReport>();
+				}
+				foreach (var bug in results) {
+					
+					if(BugIds.Contains(bug.id))
+					{
+						Console.WriteLine ("Found old bug: " + bug.ToString());
+						BugReport toMerge = Bugs[BugIds.IndexOf(bug.id)];
+						
+						List<Comment> oldComments, newComments;
+						if(toMerge.last_change_time != bug.last_change_time)
+						{
+							// Case 1: The bug has been modified
+							Console.WriteLine ("Bug has been modified");
+							
+							// back up the old comments
+							oldComments = new List<Comment>();
+							oldComments.AddRange(toMerge.Comments);
+							
+							// assign to the bug
+							BugReport newBugReport = bug; // Try to avoid any late binding issues
+							Bugs[BugIds.IndexOf(bug.id)] = newBugReport;
+							
+							// Set the old comments back
+							int targetBugId = BugIds.IndexOf(bug.id);
+							
+							Bugs[targetBugId].setComments( oldComments );
+						}
+						else
+						{
+							newComments = bug.Comments;
+							Console.WriteLine ("Bug has not been modified");
+						}
+						
+						toMerge = Bugs[BugIds.IndexOf(bug.id)];
+						//toMerge.MergeComments(newComments);
+					}
+					else
+					{
+						Console.WriteLine ("Found new bug");
+						Bugs.Add(bug);
+						BugIds.Add(bug.id);
+					}
 				}
 				return Bugs.Count;
 			} finally {
@@ -204,6 +246,9 @@ namespace BugzillaInterface
 			XmlRpcStruct bug_comments = (XmlRpcStruct)comResponse["bugs"];
 			foreach (XmlRpcStruct bug1_comments in bug_comments.Values) {
 				object[] comment_list = (object[])bug1_comments["comments"];
+				
+				List<Comment> targetCommentList = new List<Comment>();
+				
 				foreach (XmlRpcStruct comment in comment_list) {
 					//Console.WriteLine(comment["text"].ToString());
 					Comment obj1 = (Comment)AttemptStructDeserialization (comment, typeof(Comment));
@@ -211,11 +256,29 @@ namespace BugzillaInterface
 					// find the bug that's in the bug list of queries
 					
 					if (BugIds.Contains (target.bug_id)) {
-						Bugs[BugIds.IndexOf (target.bug_id)].Comments.Add (target);
+						
+						// I have absolutely no clue what I'm doing here
+						if(! Bugs[BugIds.IndexOf (target.bug_id)].Comments.Exists(delegate(Comment c1){
+							return target.id == c1.id;
+						}))
+						{
+							Bugs[BugIds.IndexOf (target.bug_id)].Comments.Add(target);
+							BugReport temp = Bugs[BugIds.IndexOf (target.bug_id)];
+							temp.NewCommentFlag = true;
+							Console.WriteLine ("Found a new comment" + target.ToString());
+						}
+						else
+						{
+							// no new comment
+						}
+						
 					}
 				}
 			}
+			
 		}
+		
+		
 
 
 		/// <summary>

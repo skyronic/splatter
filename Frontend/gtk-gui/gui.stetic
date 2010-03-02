@@ -42,6 +42,14 @@
         <property name="Tooltip" translatable="yes">Delete Query</property>
         <signal name="Activated" handler="DeleteQuery" />
       </action>
+      <action id="fetchCommentsAction">
+        <property name="Type">Action</property>
+        <property name="IsImportant">True</property>
+        <property name="Label" translatable="yes">Fetch Comments</property>
+        <property name="ShortLabel" translatable="yes">Fetch Comments</property>
+        <property name="StockId">gtk-sort-descending</property>
+        <signal name="Activated" handler="FetchCommentsActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">Splatter - Query View</property>
@@ -61,6 +69,7 @@
               <node type="Toolitem" action="addAction" />
               <node type="Toolitem" action="refreshAction" />
               <node type="Toolitem" action="deleteAction" />
+              <node type="Toolitem" action="fetchCommentsAction" />
             </node>
           </widget>
           <packing>

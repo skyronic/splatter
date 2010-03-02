@@ -3,11 +3,11 @@
   <MonoDevelop.Ide.DebuggingService>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Frontend/MainWindow.cs" ctype="Workbench">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BugzillaInterface/QueryService.cs" ctype="Workbench">
     <Files>
-      <File FileName="BugzillaInterface/BugService.cs" Line="132" Column="21" />
-      <File FileName="BugzillaInterface/QueryService.cs" Line="212" Column="6" />
-      <File FileName="Frontend/MainWindow.cs" Line="154" Column="28" />
+      <File FileName="BugzillaInterface/BugService.cs" Line="1" Column="1" />
+      <File FileName="BugzillaInterface/QueryService.cs" Line="199" Column="8" />
+      <File FileName="Frontend/MainWindow.cs" Line="1" Column="1" />
       <File FileName="Frontend/CommentSingletonWidget.cs" Line="57" Column="1" />
     </Files>
     <Pads>
@@ -15,10 +15,9 @@
         <State expanded="True">
           <Node name="BugzillaInterface" expanded="True">
             <Node name="References" expanded="True" />
+            <Node name="QueryService.cs" selected="True" />
           </Node>
-          <Node name="Frontend" expanded="True">
-            <Node name="MainWindow.cs" selected="True" />
-          </Node>
+          <Node name="Frontend" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">

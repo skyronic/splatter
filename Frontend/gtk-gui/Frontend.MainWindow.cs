@@ -12,6 +12,8 @@ namespace Frontend
 
 		private global::Gtk.Action deleteAction;
 
+		private global::Gtk.Action fetchCommentsAction;
+
 		private global::Gtk.VBox vbox1;
 
 		private global::Gtk.Toolbar toolbar3;
@@ -75,6 +77,10 @@ namespace Frontend
 			this.deleteAction.IsImportant = true;
 			this.deleteAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Delete Query");
 			w1.Add (this.deleteAction, null);
+			this.fetchCommentsAction = new global::Gtk.Action ("fetchCommentsAction", global::Mono.Unix.Catalog.GetString ("Fetch Comments"), null, "gtk-sort-descending");
+			this.fetchCommentsAction.IsImportant = true;
+			this.fetchCommentsAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("Fetch Comments");
+			w1.Add (this.fetchCommentsAction, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "Frontend.MainWindow";
@@ -85,7 +91,7 @@ namespace Frontend
 			this.vbox1.Name = "vbox1";
 			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar3'><toolitem name='addAction' action='addAction'/><toolitem name='refreshAction' action='refreshAction'/><toolitem name='deleteAction' action='deleteAction'/></toolbar></ui>");
+			this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar3'><toolitem name='addAction' action='addAction'/><toolitem name='refreshAction' action='refreshAction'/><toolitem name='deleteAction' action='deleteAction'/><toolitem name='fetchCommentsAction' action='fetchCommentsAction'/></toolbar></ui>");
 			this.toolbar3 = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar3")));
 			this.toolbar3.Name = "toolbar3";
 			this.toolbar3.ShowArrow = false;
@@ -268,6 +274,7 @@ namespace Frontend
 			this.addAction.Activated += new global::System.EventHandler (this.AddNewQueryClicked);
 			this.refreshAction.Activated += new global::System.EventHandler (this.RefreshQueriesBuggonClicked);
 			this.deleteAction.Activated += new global::System.EventHandler (this.DeleteQuery);
+			this.fetchCommentsAction.Activated += new global::System.EventHandler (this.FetchCommentsActivated);
 		}
 	}
 }

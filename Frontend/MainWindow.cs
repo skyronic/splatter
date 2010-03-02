@@ -28,6 +28,7 @@
 using System;
 using Gtk;
 using BugzillaInterface;
+using Gdk;
 
 namespace Frontend
 {
@@ -70,7 +71,12 @@ namespace Frontend
 			summaryColumn.Title = "Summary";
 			CellRendererText summaryColumnCell = new CellRendererText();
 			summaryColumn.PackStart(summaryColumnCell, true);
-			summaryColumn.AddAttribute(summaryColumnCell, "text", 0); // TODO: Change this?
+			summaryColumn.AddAttribute(summaryColumnCell, "text", 1); // TODO: Change this?
+			
+			TreeViewColumn iconColumn = new TreeViewColumn();
+			CellRendererPixbuf iconCell = new CellRendererPixbuf();
+			iconColumn.PackStart(iconCell, false);
+			iconColumn.AddAttribute(iconCell, "pixbuf", 0);
 			
 			
 			
@@ -78,12 +84,13 @@ namespace Frontend
 			//treeview1.AppendColumn(productColumn);
 			//treeview1.AppendColumn(severityColumn);
 			//treeview1.AppendColumn(statusColumn);
+			treeview1.AppendColumn (iconColumn);
 			treeview1.AppendColumn(summaryColumn);
 			
 			
 			treeview1.RowActivated += BugTreeRowActivated;
 			
-			bugStore = new TreeStore(typeof(string));
+			bugStore = new TreeStore(typeof(Gdk.Pixbuf), typeof(string));
 			treeview1.Model = bugStore;
 			SplatterCore.LoadState();
 			
@@ -188,8 +195,8 @@ namespace Frontend
 				foreach (Query query in SplatterCore.Instance.Queries) {
 					statusLabel.Text = "Refreshing query " + query.Generator.Title;
 					progressbar1.Fraction = (double)(index + 1) / (double)(TotalQueries + 1);
-					//query.Execute(); // TODO: Change back to this
-					query.FetchComments();
+					query.Execute(); // TODO: Change back to this
+					//query.FetchComments();
 					
 				}
 				progressbar1.Fraction = 1;
@@ -197,7 +204,7 @@ namespace Frontend
 				
 				// Save and sync
 				SplatterCore.Instance.SaveState();
-				//SyncTreeviewWithBugs();
+				SyncTreeviewWithBugs();
 			}
 		}
 
@@ -209,13 +216,22 @@ namespace Frontend
 			Console.WriteLine ("Syncing treeview with bugs " + SplatterCore.Instance.Queries.Count);
 			// Clear all the items in the store
 			bugStore.Clear();
+			
+			Gdk.Pixbuf unreadMessageIcon = IconFactory.LookupDefault(Stock.Yes).RenderIcon(this.Style, TextDirection.Ltr, StateType.Active, IconSize.Menu, null, null);
+			IconSource sdf =  new IconSource();
 			foreach(Query q in SplatterCore.Instance.Queries)
 			{
-				TreeIter queryIter = bugStore.AppendValues(q.Generator.Title);
+				TreeIter queryIter = bugStore.AppendValues(null, q.Generator.Title);
 				foreach(BugReport bug in q.Bugs)
 				{
-					//bugStore.AppendValues(queryIter, bug.id.ToString(), bug.product, bug.severity, bug.status, bug.summary);
-					bugStore.AppendValues(queryIter, bug.summary);
+					if(bug.NewCommentFlag)
+					{
+						bugStore.AppendValues(queryIter, unreadMessageIcon,  bug.summary);
+					}
+					else
+					{
+						bugStore.AppendValues(queryIter, null,  bug.summary);
+					}
 				}
 			}
 		}
@@ -240,5 +256,28 @@ namespace Frontend
 				
 			}
 		}
+		protected virtual void FetchCommentsActivated (object sender, System.EventArgs e)
+		{
+			int TotalQueries = SplatterCore.Instance.Queries.Count;
+			if(TotalQueries > 0)
+			{
+				int index = 0;
+				foreach (Query query in SplatterCore.Instance.Queries) {
+					statusLabel.Text = "Refreshing query " + query.Generator.Title;
+					progressbar1.Fraction = (double)(index + 1) / (double)(TotalQueries + 1);
+					//query.Execute(); // TODO: Change back to this
+					query.FetchComments();
+					
+				}
+				progressbar1.Fraction = 1;
+				statusLabel.Text = "Refresh complete!";
+				
+				// Save and sync
+				SplatterCore.Instance.SaveState();
+				SyncTreeviewWithBugs();
+			}
+		}
+		
+		
 	}
 }

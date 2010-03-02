@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Collections;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace BugzillaInterface
 {
@@ -83,7 +84,7 @@ namespace BugzillaInterface
 		public bool is_open{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public DateTime last_changed_time{get;set;}
+		public DateTime last_change_time{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string priority{get;set;}
@@ -106,10 +107,12 @@ namespace BugzillaInterface
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public List<Comment> Comments{get;set;}
 		
+		[XmlRpcMissingMapping(MappingAction.Ignore)]
+		public bool NewCommentFlag{get;set;}
 		
 		public override string ToString ()
 		{
-			return string.Format("[BugReport: alias={0}, assigned_to={1}, component={2}, creation_time={3}, dupe_of={4}, id={5}, is_open={6}, last_changed_time={7}, priority={8}, product={9}, resolution={10}, severity={11}, status={12}, severity={13}, summary={14}]", alias, assigned_to, component, creation_time, dupe_of, id, is_open, last_changed_time, priority, product, resolution, severity, status, severity, summary);
+			return string.Format("[BugReport: alias={0}, assigned_to={1}, component={2}, creation_time={3}, dupe_of={4}, id={5}, is_open={6}, last_changed_time={7}, priority={8}, product={9}, resolution={10}, severity={11}, status={12}, severity={13}, summary={14}]", alias, assigned_to, component, creation_time, dupe_of, id, is_open, last_change_time, priority, product, resolution, severity, status, severity, summary);
 		}
 		
 		public void ResetComments()
@@ -117,6 +120,21 @@ namespace BugzillaInterface
 			if(Comments == null)
 			{
 				Comments = new List<Comment>();
+			}
+		}
+		
+		public void MergeComments(List<Comment> items)
+		{
+			
+		}
+		
+		public void setComments (System.Collections.Generic.List<BugzillaInterface.Comment> oldComments)
+		{
+			// Comments.Clear();
+			Comments = new List<Comment>();
+			foreach(Comment c in oldComments)
+			{
+				Comments.Add(c);
 			}
 		}
 	}
