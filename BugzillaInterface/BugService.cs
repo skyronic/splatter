@@ -123,6 +123,16 @@ namespace BugzillaInterface
 			}
 		}
 		
+		public void MarkUnread()
+		{
+			NewCommentFlag = true;
+		}
+		
+		public void MarkRead()
+		{
+			NewCommentFlag = false;
+		}
+		
 		public void MergeComments(List<Comment> items)
 		{
 			

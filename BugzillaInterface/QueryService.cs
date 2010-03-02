@@ -262,9 +262,9 @@ namespace BugzillaInterface
 							return target.id == c1.id;
 						}))
 						{
-							Bugs[BugIds.IndexOf (target.bug_id)].Comments.Add(target);
-							BugReport temp = Bugs[BugIds.IndexOf (target.bug_id)];
-							temp.NewCommentFlag = true;
+							int targetId = BugIds.IndexOf (target.bug_id);
+							Bugs[targetId].Comments.Add(target);
+							Bugs[targetId].MarkUnread();
 							Console.WriteLine ("Found a new comment" + target.ToString());
 						}
 						else
