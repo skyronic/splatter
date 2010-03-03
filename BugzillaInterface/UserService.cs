@@ -145,10 +145,19 @@ namespace BugzillaInterface
 			LoginParams loginParams = new LoginParams();
 			loginParams.login = login;
 			loginParams.password = password;
-			loginParams.remember = false;
+			loginParams.remember = true;
 			try
 			{
+				Tracer trace = new Tracer();
+				trace.Attach(userProxy);
 				XmlRpcStruct loginResult = userProxy.Login(loginParams);
+				trace.Detach(userProxy);
+				if((int)loginResult["id"] == 0)
+				{
+					Console.WriteLine ("User/pass invalid");
+					return false;
+				}
+				
 			}
 			catch(XmlRpcFaultException ex)
 			{
@@ -156,7 +165,9 @@ namespace BugzillaInterface
 				{
 					Console.WriteLine ("Username invalid");
 					return false;
-				}				
+				}
+				Console.WriteLine ("Some strange error");
+				return false;
 			}
 			catch(Exception ex)
 			{

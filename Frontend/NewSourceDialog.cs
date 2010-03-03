@@ -66,6 +66,7 @@ namespace Frontend
 			// disable the verify button
 			verifyButton.Sensitive = false;
 			statusLabel.Markup = "Status: <b>Verifying</b>";
+			Console.WriteLine ("The url is " + target.Url);
 			
 			if(target.LoginAndVerify())
 			{
