@@ -1,5 +1,5 @@
 // 
-// Main.cs
+// DateFilterWidget.cs
 //  
 // Author:
 //       Anirudh Sanjeev <anirudh@anirudhsanjeev.org>
@@ -26,30 +26,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 using System;
-using Gtk;
-using BugzillaInterface;
-
-namespace Frontend
+namespace BugzillaInterface
 {
-	class MainClass
+	[System.ComponentModel.ToolboxItem(true)]
+	public partial class DateFilterWidget : Gtk.Bin, IFilterWidget
 	{
-		public static void Main (string[] args)
+		#region IFilterWidget implementation
+		public void SetFilterParams (ref SearchParams filter)
 		{
-			UntrustedConnectionProxy.Setup();
-			Application.Init ();
-			MainWindow win = new MainWindow ();
-			win.Destroyed += HandleWinDestroyed;
-			win.Show ();
-			Application.Run ();
+			if(this.reportedCalendar.Date != DateTime.Today)
+			{
+				filter.creation_time = reportedCalendar.Date;
+			}
 			
-			
-			
+			if(this.modifiedCalendar.Date != DateTime.Today)
+			{
+				filter.last_change_time = modifiedCalendar.Date;
+			}
 		}
-
-		static void HandleWinDestroyed (object sender, EventArgs e)
+		
+		
+		public void SetNewSourceID (int sourceID)
 		{
-			Console.WriteLine ("Flushing changes to disk");
-			SplatterCore.Instance.SaveState();
+		}
+		
+		#endregion
+		public DateFilterWidget ()
+		{
+			this.Build ();
 		}
 	}
 }
+

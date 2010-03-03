@@ -52,6 +52,7 @@ namespace Frontend
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
 			this.commentContent = new global::Gtk.TextView ();
+			this.commentContent.HeightRequest = 140;
 			this.commentContent.CanFocus = true;
 			this.commentContent.Name = "commentContent";
 			this.commentContent.Editable = false;

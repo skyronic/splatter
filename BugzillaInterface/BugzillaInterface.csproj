@@ -51,6 +51,8 @@
     <Compile Include="QueryGUI\ImportanceWidget.cs" />
     <Compile Include="gtk-gui\BugzillaInterface.ImportanceWidget.cs" />
     <Compile Include="SecurityCertificateHandler.cs" />
+    <Compile Include="QueryGUI\DateFilterWidget.cs" />
+    <Compile Include="gtk-gui\BugzillaInterface.DateFilterWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

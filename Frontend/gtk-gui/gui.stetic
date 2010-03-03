@@ -1014,7 +1014,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="Frontend.CommentSingletonWidget" design-size="259 154">
+  <widget class="Gtk.Bin" id="Frontend.CommentSingletonWidget" design-size="259 182">
     <property name="MemberName" />
     <property name="Visible">False</property>
     <child>
@@ -1047,6 +1047,7 @@ You'll need to test the query again if you make any changes to the filters.</pro
                 <child>
                   <widget class="Gtk.TextView" id="commentContent">
                     <property name="MemberName" />
+                    <property name="HeightRequest">140</property>
                     <property name="CanFocus">True</property>
                     <property name="ShowScrollbars">True</property>
                     <property name="Editable">False</property>

@@ -74,6 +74,9 @@ namespace Frontend
 			filterWidgets.Add(new ImportanceWidget());
 			filterNames.Add("Importance");
 			
+			filterWidgets.Add(new DateFilterWidget());
+			filterNames.Add("Date");
+			
 			// set up the treeview columns
 			TreeViewColumn filterColumn = new TreeViewColumn();
 			CellRendererText filterRenderer = new CellRendererText();
@@ -233,6 +236,9 @@ namespace Frontend
 		{
 			if(Candidate!=null)
 			{
+				// fetch comments
+				Candidate.FetchComments();
+				
 				// add the candidate query to the list of queries
 				SplatterCore.Instance.Queries.Add(Candidate);
 				Candidate.Generator.Title = bugTitleEntry.Text;

@@ -189,7 +189,7 @@ namespace Frontend
 				commentWidget.ShowAll();
 				
 				
-				commentVBox.PackStart(commentWidget, true, true, 0);
+				commentVBox.PackStart(commentWidget, false, false, 0);
 			}
 		}
 		
@@ -220,8 +220,8 @@ namespace Frontend
 			targetLabel.Xpad = 13;
 			targetLabel.Show();
 			
-			container.Attach(targetLabel, (uint)0, (uint)1, (uint)row, (uint)(row + 1), AttachOptions.Fill, AttachOptions.Fill, 0, 0);
-			container.Attach(target, (uint)1, (uint)2, (uint)row, (uint)(row + 1), AttachOptions.Expand|AttachOptions.Fill, AttachOptions.Expand|AttachOptions.Fill, 0, 0);
+			container.Attach(targetLabel, (uint)0, (uint)1, (uint)row, (uint)(row + 1), AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
+			container.Attach(target, (uint)1, (uint)2, (uint)row, (uint)(row + 1), AttachOptions.Expand|AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
 			
 			row += 1;
 			Console.WriteLine ("Finished writing to row {0}", row);
