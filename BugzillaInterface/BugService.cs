@@ -69,7 +69,7 @@ namespace BugzillaInterface
 		public BugReport[] bugs;
 	}
 	
-	public struct BugReport
+	public class BugReport
 	{
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public string alias{get;set;}
@@ -117,7 +117,10 @@ namespace BugzillaInterface
 		public List<Comment> Comments{get;set;}
 		
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
-		public bool NewCommentFlag{get;set;}
+		public bool NewCommentFlag;
+		
+		[XmlRpcMissingMapping(MappingAction.Ignore)]
+		public bool BugChangedFlag;
 		
 		public override string ToString ()
 		{
@@ -134,7 +137,13 @@ namespace BugzillaInterface
 		
 		public void MarkUnread()
 		{
+			Console.WriteLine ("Marking bug as unread");
 			NewCommentFlag = true;
+		}
+		
+		public void FlagChanged()
+		{
+			this.BugChangedFlag = true;
 		}
 		
 		public void MarkRead()

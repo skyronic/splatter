@@ -56,7 +56,7 @@ namespace BugzillaInterface
 			Console.WriteLine ("Making query");
 			List<BugReport> results = new List<BugReport> ();
 			
-			//Tracer trace = new Tracer();
+			Tracer trace = new Tracer();
 			//trace.Attach(bugProxy);
 			
 			GetBugsResponse result = bugProxy.SearchBugs (queryParameters);
@@ -181,7 +181,7 @@ namespace BugzillaInterface
 					
 					if(BugIds.Contains(bug.id))
 					{
-						Console.WriteLine ("Found old bug: " + bug.ToString());
+						//Console.WriteLine ("Found old bug: " + bug.ToString());
 						BugReport toMerge = Bugs[BugIds.IndexOf(bug.id)];
 						
 						List<Comment> oldComments, newComments;
@@ -202,11 +202,12 @@ namespace BugzillaInterface
 							int targetBugId = BugIds.IndexOf(bug.id);
 							
 							Bugs[targetBugId].setComments( oldComments );
+							Bugs[targetBugId].BugChangedFlag = true;
 						}
 						else
 						{
 							newComments = bug.Comments;
-							Console.WriteLine ("Bug has not been modified");
+							//Console.WriteLine ("Bug has not been modified");
 						}
 						
 						toMerge = Bugs[BugIds.IndexOf(bug.id)];
@@ -239,8 +240,9 @@ namespace BugzillaInterface
 			// Set the source if it hasn't been set alreayd
 			Generator.SetSource (SplatterCore.Instance.Sources[this.SourceID]);
 			
-			//Tracer trace = new Tracer();
-			//trace.Attach(Generator.bugProxy);
+			Tracer trace = new Tracer();
+			trace.Attach(Generator.bugProxy);
+			
 			XmlRpcStruct comResponse = Generator.bugProxy.GetComments (commentParameters);
 			Console.WriteLine ("Done!");
 			
@@ -271,6 +273,9 @@ namespace BugzillaInterface
 						}
 						else
 						{
+							
+							int targetId = BugIds.IndexOf (target.bug_id);
+							Bugs[targetId].MarkUnread();
 							// no new comment
 						}
 						

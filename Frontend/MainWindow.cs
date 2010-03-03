@@ -71,7 +71,7 @@ namespace Frontend
 			summaryColumn.Title = "Summary";
 			CellRendererText summaryColumnCell = new CellRendererText();
 			summaryColumn.PackStart(summaryColumnCell, true);
-			summaryColumn.AddAttribute(summaryColumnCell, "text", 1); // TODO: Change this?
+			summaryColumn.AddAttribute(summaryColumnCell, "text", 1); // TODO: Change this?			
 			
 			TreeViewColumn iconColumn = new TreeViewColumn();
 			CellRendererPixbuf iconCell = new CellRendererPixbuf();
@@ -157,7 +157,15 @@ namespace Frontend
 				StringValueToTable(bugPropertyTable, "Priority", target.priority, ref row_id);
 				StringValueToTable(bugPropertyTable, "Created", target.creation_time.ToString(), ref row_id);
 				
+				// Mark bug as having no unread comments
+				target.BugChangedFlag = false;
+				target.NewCommentFlag = false;
+				
+				// Force UI Refresh
+				this.SyncTreeviewWithBugs();
 			}
+			
+			
 		}
 		
 		/// <summary>
@@ -263,7 +271,7 @@ namespace Frontend
 			// Clear all the items in the store
 			bugStore.Clear();			
 			
-			Gdk.Pixbuf unreadMessageIcon = IconFactory.LookupDefault(Stock.Yes).RenderIcon(this.Style, TextDirection.Ltr, StateType.Active, IconSize.Menu, null, null);
+			Gdk.Pixbuf unreadMessageIcon = IconFactory.LookupDefault(Stock.Ok).RenderIcon(this.Style, TextDirection.Ltr, StateType.Active, IconSize.Menu, null, null);
 			IconSource sdf =  new IconSource();
 			
 			// Iterate over all the queries and display them
@@ -274,15 +282,18 @@ namespace Frontend
 				// Display individual bugs
 				foreach(BugReport bug in q.Bugs)
 				{
+					string rowName = bug.summary;
+					if(bug.BugChangedFlag)
+					{
+						rowName = "<b>" + rowName + "</b>";
+					}
 					if(bug.NewCommentFlag)
 					{
-						Console.WriteLine ("Bug has unread comments");
-						bugStore.AppendValues(queryIter, unreadMessageIcon,  bug.summary);
+						bugStore.AppendValues(queryIter, unreadMessageIcon,  rowName);
 					}
 					else
 					{
-						Console.WriteLine ("No unread comments");
-						bugStore.AppendValues(queryIter, null,  bug.summary);
+						bugStore.AppendValues(queryIter, null,  rowName);
 					}
 				}
 				
