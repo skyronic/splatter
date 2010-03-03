@@ -115,36 +115,28 @@ namespace Frontend
 				SplatterCore.Instance.Queries[args.Path.Indices[0]].TreeExpanded = true;
 			}
 		}
+		
+		protected BugReport activeBug;
+		protected Query activeQuery;
 
 
 		void BugTreeRowActivated (object o, RowActivatedArgs args)
 		{
 			Console.WriteLine ("Row activated + " + args.Path.Indices.Length);
+			commentSendButton.Sensitive = false;
 			
 			// Check the length of the indices array in the path. We are ideally looking for something which is
 			// in the first level of nesting.
 			if(args.Path.Indices.Length != 1)
 			{
+				commentSendButton.Sensitive = true;
 				BugReport target = BugReportFromTreePath (args.Path);
+				activeBug = target;
+				activeQuery = SplatterCore.Instance.Queries[args.Path.Indices[0]];
+				
 				Console.WriteLine ("Fetching comments for " + target.id);
 				
-				// Clear the comment VBox
-				foreach(Widget w in commentVBox.Children)
-				{
-					commentVBox.Remove(w);
-					w.Dispose();
-				}
-				
-				foreach(var com in target.Comments)
-				{
-					Console.WriteLine (com.ToString());
-					CommentSingletonWidget commentWidget = new CommentSingletonWidget();
-					commentWidget.SetComment(com);
-					commentWidget.ShowAll();
-					
-					
-					commentVBox.PackStart(commentWidget, true, true, 0);
-				}
+				DrawCommentsFromReport (target);
 				
 				// Set the bug details
 				int row_id = 0;
@@ -165,6 +157,31 @@ namespace Frontend
 				StringValueToTable(bugPropertyTable, "Priority", target.priority, ref row_id);
 				StringValueToTable(bugPropertyTable, "Created", target.creation_time.ToString(), ref row_id);
 				
+			}
+		}
+		
+		/// <summary>
+		/// TODO: write a comment.
+		/// </summary>
+		/// <param name="target"> A BugReport </param>
+		private void DrawCommentsFromReport (BugReport target)
+		{
+			// Clear the comment VBox
+			foreach(Widget w in commentVBox.Children)
+			{
+				commentVBox.Remove(w);
+				w.Dispose();
+			}
+			
+			foreach(var com in target.Comments)
+			{
+				Console.WriteLine (com.ToString());
+				CommentSingletonWidget commentWidget = new CommentSingletonWidget();
+				commentWidget.SetComment(com);
+				commentWidget.ShowAll();
+				
+				
+				commentVBox.PackStart(commentWidget, true, true, 0);
 			}
 		}
 		
@@ -317,6 +334,18 @@ namespace Frontend
 				SyncTreeviewWithBugs();
 			}
 		}
+		
+		protected virtual void PostCommentClicked (object sender, System.EventArgs e)
+		{
+			activeQuery.PostComment(activeBug.id, commentEntryBox.Buffer.Text);
+		}
+		
+		protected virtual void PostCommentClicked2 (object sender, System.EventArgs e)
+		{
+			activeQuery.PostComment(activeBug.id, commentEntryBox.Buffer.Text);
+		}
+		
+		
 		
 		
 	}

@@ -40,9 +40,9 @@ namespace Frontend
 
 		private global::Gtk.ScrolledWindow GtkScrolledWindow1;
 
-		private global::Gtk.TextView textview3;
+		private global::Gtk.TextView commentEntryBox;
 
-		private global::Gtk.Button button244;
+		private global::Gtk.Button commentSendButton;
 
 		private global::Gtk.Label label5;
 
@@ -170,20 +170,21 @@ namespace Frontend
 			this.GtkScrolledWindow1.HscrollbarPolicy = ((global::Gtk.PolicyType)(2));
 			this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
-			this.textview3 = new global::Gtk.TextView ();
-			this.textview3.HeightRequest = 60;
-			this.textview3.CanFocus = true;
-			this.textview3.Name = "textview3";
-			this.GtkScrolledWindow1.Add (this.textview3);
+			this.commentEntryBox = new global::Gtk.TextView ();
+			this.commentEntryBox.HeightRequest = 60;
+			this.commentEntryBox.CanFocus = true;
+			this.commentEntryBox.Name = "commentEntryBox";
+			this.GtkScrolledWindow1.Add (this.commentEntryBox);
 			this.hbox4.Add (this.GtkScrolledWindow1);
 			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox4[this.GtkScrolledWindow1]));
 			w11.Position = 0;
 			// Container child hbox4.Gtk.Box+BoxChild
-			this.button244 = new global::Gtk.Button ();
-			this.button244.CanFocus = true;
-			this.button244.Name = "button244";
-			this.button244.UseUnderline = true;
-			// Container child button244.Gtk.Container+ContainerChild
+			this.commentSendButton = new global::Gtk.Button ();
+			this.commentSendButton.Sensitive = false;
+			this.commentSendButton.CanFocus = true;
+			this.commentSendButton.Name = "commentSendButton";
+			this.commentSendButton.UseUnderline = true;
+			// Container child commentSendButton.Gtk.Container+ContainerChild
 			global::Gtk.Alignment w12 = new global::Gtk.Alignment (0.5f, 0.5f, 0f, 0f);
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
 			global::Gtk.HBox w13 = new global::Gtk.HBox ();
@@ -198,9 +199,9 @@ namespace Frontend
 			w16.UseUnderline = true;
 			w13.Add (w16);
 			w12.Add (w13);
-			this.button244.Add (w12);
-			this.hbox4.Add (this.button244);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.hbox4[this.button244]));
+			this.commentSendButton.Add (w12);
+			this.hbox4.Add (this.commentSendButton);
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.hbox4[this.commentSendButton]));
 			w20.Position = 1;
 			w20.Expand = false;
 			this.vbox10.Add (this.hbox4);
@@ -275,6 +276,8 @@ namespace Frontend
 			this.refreshAction.Activated += new global::System.EventHandler (this.RefreshQueriesBuggonClicked);
 			this.deleteAction.Activated += new global::System.EventHandler (this.DeleteQuery);
 			this.fetchCommentsAction.Activated += new global::System.EventHandler (this.FetchCommentsActivated);
+			this.commentSendButton.Activated += new global::System.EventHandler (this.PostCommentClicked);
+			this.commentSendButton.Clicked += new global::System.EventHandler (this.PostCommentClicked2);
 		}
 	}
 }

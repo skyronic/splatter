@@ -277,7 +277,29 @@ namespace BugzillaInterface
 					}
 				}
 			}
+		}
+		
+		public bool PostComment(int bugId, string text)
+		{
+			Console.WriteLine ("Posting comment");
+			// Set the source if it hasn't been set alreayd
+			Generator.SetSource (SplatterCore.Instance.Sources[this.SourceID]);
 			
+			Tracer trace = new Tracer();
+			trace.Attach(Generator.bugProxy);
+			PostCommentParams postCommentParams = new PostCommentParams();
+			postCommentParams.id = bugId;
+			postCommentParams.comment = text;
+			
+			// Make the request;
+			try{
+			XmlRpcStruct result = Generator.bugProxy.PostComment(postCommentParams);
+			}
+			catch{
+				return false;
+			}
+			
+			return true;
 		}
 		
 		

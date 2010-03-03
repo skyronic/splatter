@@ -47,12 +47,21 @@ namespace BugzillaInterface
 		[XmlRpcMethod("Bug.search")]
 		GetBugsResponse SearchBugs(SearchParams parameters);
 		
+		[XmlRpcMethod("Bug.add_comment")]
+		XmlRpcStruct PostComment(PostCommentParams parameters);
+		
 	}
 	
 	public struct GetBugsParams
 	{
 		public int[] ids;
 		public bool permissive;
+	}
+	
+	public struct PostCommentParams
+	{
+		public int id;
+		public string comment;
 	}
 	
 	public struct GetBugsResponse

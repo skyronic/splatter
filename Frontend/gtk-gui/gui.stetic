@@ -167,7 +167,7 @@
                                 <property name="HscrollbarPolicy">Never</property>
                                 <property name="ShadowType">In</property>
                                 <child>
-                                  <widget class="Gtk.TextView" id="textview3">
+                                  <widget class="Gtk.TextView" id="commentEntryBox">
                                     <property name="MemberName" />
                                     <property name="HeightRequest">60</property>
                                     <property name="CanFocus">True</property>
@@ -182,13 +182,16 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Button" id="button244">
+                              <widget class="Gtk.Button" id="commentSendButton">
                                 <property name="MemberName" />
+                                <property name="Sensitive">False</property>
                                 <property name="CanFocus">True</property>
                                 <property name="Type">TextAndIcon</property>
                                 <property name="Icon">stock:gtk-network Menu</property>
                                 <property name="Label" translatable="yes">Send</property>
                                 <property name="UseUnderline">True</property>
+                                <signal name="Activated" handler="PostCommentClicked" />
+                                <signal name="Clicked" handler="PostCommentClicked2" />
                               </widget>
                               <packing>
                                 <property name="Position">1</property>
