@@ -89,6 +89,8 @@ namespace Frontend
 			
 			
 			treeview1.RowActivated += BugTreeRowActivated;
+			treeview1.RowExpanded += BugTreeRowExpanded;
+			treeview1.RowCollapsed += BugTreeRowCollapsed;
 			
 			bugStore = new TreeStore(typeof(Gdk.Pixbuf), typeof(string));
 			treeview1.Model = bugStore;
@@ -98,6 +100,23 @@ namespace Frontend
 			
 		}
 
+		void BugTreeRowCollapsed (object o, RowCollapsedArgs args)
+		{
+			if (args.Path.Indices.Length == 1) // Check and make sure it's a root node
+			{
+				SplatterCore.Instance.Queries[args.Path.Indices[0]].TreeExpanded = false;
+			}
+		}
+
+		void BugTreeRowExpanded (object o, RowExpandedArgs args)
+		{
+			if (args.Path.Indices.Length == 1) // Check and make sure it's a root node
+			{
+				SplatterCore.Instance.Queries[args.Path.Indices[0]].TreeExpanded = true;
+			}
+		}
+
+
 		void BugTreeRowActivated (object o, RowActivatedArgs args)
 		{
 			Console.WriteLine ("Row activated + " + args.Path.Indices.Length);
@@ -106,11 +125,7 @@ namespace Frontend
 			// in the first level of nesting.
 			if(args.Path.Indices.Length != 1)
 			{
-				int queryIndex = args.Path.Indices[0];
-				int bugIndex = args.Path.Indices[1];
-				
-				// Retrieve the bug
-				BugReport target = SplatterCore.Instance.Queries[queryIndex].Bugs[bugIndex];
+				BugReport target = BugReportFromTreePath (args.Path);
 				Console.WriteLine ("Fetching comments for " + target.id);
 				
 				// Clear the comment VBox
@@ -151,6 +166,19 @@ namespace Frontend
 				StringValueToTable(bugPropertyTable, "Created", target.creation_time.ToString(), ref row_id);
 				
 			}
+		}
+		
+		/// <summary>
+		/// TODO: write a comment.
+		/// </summary>
+		/// <param name="args"> A RowActivatedArgs </param>
+		private static BugReport BugReportFromTreePath (TreePath Path)
+		{
+			int queryIndex = Path.Indices[0];
+			int bugIndex = Path.Indices[1];
+			
+			// Retrieve the bug
+			return SplatterCore.Instance.Queries[queryIndex].Bugs[bugIndex];
 		}
 		
 		protected void StringValueToTable (Table container, string name, string valueText, ref int row)
@@ -214,14 +242,19 @@ namespace Frontend
 		public void SyncTreeviewWithBugs ()
 		{
 			Console.WriteLine ("Syncing treeview with bugs " + SplatterCore.Instance.Queries.Count);
+			
 			// Clear all the items in the store
-			bugStore.Clear();
+			bugStore.Clear();			
 			
 			Gdk.Pixbuf unreadMessageIcon = IconFactory.LookupDefault(Stock.Yes).RenderIcon(this.Style, TextDirection.Ltr, StateType.Active, IconSize.Menu, null, null);
 			IconSource sdf =  new IconSource();
+			
+			// Iterate over all the queries and display them
 			foreach(Query q in SplatterCore.Instance.Queries)
 			{
 				TreeIter queryIter = bugStore.AppendValues(null, q.Generator.Title);
+				
+				// Display individual bugs
 				foreach(BugReport bug in q.Bugs)
 				{
 					if(bug.NewCommentFlag)
@@ -233,6 +266,13 @@ namespace Frontend
 						bugStore.AppendValues(queryIter, null,  bug.summary);
 					}
 				}
+				
+				// Check if the query has an expendaded tree
+				if(q.TreeExpanded)
+				{
+					treeview1.ExpandRow(bugStore.GetPath(queryIter) , false);
+				}
+				
 			}
 		}
 		

@@ -131,6 +131,8 @@ namespace BugzillaInterface
 		public Repository Source { get; set; }
 
 		public int SourceID { get; set; }
+		
+		public bool TreeExpanded{get;set;}
 
 		public Query ()
 		{
