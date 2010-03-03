@@ -267,7 +267,7 @@ namespace BugzillaInterface
 							int targetId = BugIds.IndexOf (target.bug_id);
 							Bugs[targetId].Comments.Add(target);
 							Bugs[targetId].MarkUnread();
-							Console.WriteLine ("Found a new comment" + target.ToString());
+							//Console.WriteLine ("Found a new comment" + target.ToString());
 						}
 						else
 						{
@@ -277,6 +277,15 @@ namespace BugzillaInterface
 					}
 				}
 			}
+		}
+		
+		public BugReport BugFromBugId(int bugId)
+		{
+			if(BugIds.Contains(bugId))
+			{
+				return Bugs[ BugIds.IndexOf ( bugId ) ];
+			}
+			return new BugReport();
 		}
 		
 		public bool PostComment(int bugId, string text)
@@ -292,12 +301,31 @@ namespace BugzillaInterface
 			postCommentParams.comment = text;
 			
 			// Make the request;
+			XmlRpcStruct result;
 			try{
-			XmlRpcStruct result = Generator.bugProxy.PostComment(postCommentParams);
+			result = Generator.bugProxy.PostComment(postCommentParams);
 			}
 			catch{
 				return false;
 			}
+			
+			// This is probably stupid. Let's reconstruct the entire comment :);
+			Comment target = new Comment();
+			target.bug_id = bugId;
+			target.id = (int)result["id"];
+			target.text = text;
+			
+			// Retrieve the author
+			this.Source = SplatterCore.Instance.Sources[SourceID];
+			target.author = Source.UserName;
+			
+			target.time = DateTime.Now;
+			//target.is_private = false;
+			
+			// Add the comment to the bug
+			BugReport bug = BugFromBugId(bugId);
+			
+			bug.Comments.Add(target);
 			
 			return true;
 		}

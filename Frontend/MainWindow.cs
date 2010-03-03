@@ -276,10 +276,12 @@ namespace Frontend
 				{
 					if(bug.NewCommentFlag)
 					{
+						Console.WriteLine ("Bug has unread comments");
 						bugStore.AppendValues(queryIter, unreadMessageIcon,  bug.summary);
 					}
 					else
 					{
+						Console.WriteLine ("No unread comments");
 						bugStore.AppendValues(queryIter, null,  bug.summary);
 					}
 				}
@@ -342,7 +344,11 @@ namespace Frontend
 		
 		protected virtual void PostCommentClicked2 (object sender, System.EventArgs e)
 		{
-			activeQuery.PostComment(activeBug.id, commentEntryBox.Buffer.Text);
+			if(activeQuery.PostComment(activeBug.id, commentEntryBox.Buffer.Text))
+			{
+				SplatterCore.Instance.SaveState();
+				DrawCommentsFromReport(activeBug);
+			}
 		}
 		
 		
