@@ -229,7 +229,7 @@ namespace BugzillaInterface
 
 		protected override void OnResponse (object sender, XmlRpcResponseEventArgs e)
 		{
-			DumpStream (e.ResponseStream);
+			//DumpStream (e.ResponseStream);
 		}
 
 		private void DumpStream (Stream stm)

@@ -137,7 +137,7 @@ namespace BugzillaInterface
 		
 		public void MarkUnread()
 		{
-			Console.WriteLine ("Marking bug as unread");
+			//Console.WriteLine ("Marking bug as unread");
 			NewCommentFlag = true;
 		}
 		

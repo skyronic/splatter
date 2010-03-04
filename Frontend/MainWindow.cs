@@ -29,6 +29,7 @@ using System;
 using Gtk;
 using BugzillaInterface;
 using Gdk;
+using System.Threading;
 
 namespace Frontend
 {
@@ -116,7 +117,7 @@ namespace Frontend
 			}
 		}
 		
-		protected BugReport activeBug;
+		protected BugReport activeBug = new BugReport();
 		protected Query activeQuery;
 
 
@@ -130,18 +131,21 @@ namespace Frontend
 			if(args.Path.Indices.Length != 1)
 			{
 				commentSendButton.Sensitive = true;
+				
 				BugReport target = BugReportFromTreePath (args.Path);
+				lock(activeBug)
+				{
 				activeBug = target;
 				activeQuery = SplatterCore.Instance.Queries[args.Path.Indices[0]];
 				
-				Console.WriteLine ("Fetching comments for " + target.id);
 				
 				DrawCommentsFromReport (target);
 				
+				}
+				
+				
 				// Set the bug details
 				int row_id = 0;
-				
-				
 				/*
 				 *
 				 * TODO: Change the number of rows as you add more properties to the table
@@ -191,7 +195,6 @@ namespace Frontend
 			
 			foreach(var com in target.Comments)
 			{
-				Console.WriteLine (com.ToString());
 				CommentSingletonWidget commentWidget = new CommentSingletonWidget();
 				commentWidget.SetComment(com);
 				commentWidget.ShowAll();
@@ -232,7 +235,7 @@ namespace Frontend
 			container.Attach(target, (uint)1, (uint)2, (uint)row, (uint)(row + 1), AttachOptions.Expand|AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
 			
 			row += 1;
-			Console.WriteLine ("Finished writing to row {0}", row);
+			//Console.WriteLine ("Finished writing to row {0}", row);
 		}
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -359,17 +362,65 @@ namespace Frontend
 			}
 		}
 		
+		private void PostCommentAsync()
+		{
+			statusLabel.Text = "Posting comment";
+			commentSendButton.Sensitive = false;
+			lock(activeBug)
+			{
+			if(activeQuery.PostComment(activeBug.id, commentEntryBox.Buffer.Text))
+			{
+				lock(this)
+				{
+				statusLabel.Text = "Comment posted";
+				SplatterCore.Instance.SaveState();
+				{
+					SyncTreeviewWithBugs();
+					DrawCommentsFromReport(activeBug);
+				}
+				}
+			}
+			else
+			{
+				statusLabel.Text = "Error posting comment";
+			}
+			commentSendButton.Sensitive = true;
+			}
+		}
+		
+		Thread CommentThread;
+		
 		protected virtual void PostCommentClicked (object sender, System.EventArgs e)
 		{
-			activeQuery.PostComment(activeBug.id, commentEntryBox.Buffer.Text);
+			if(CommentThread == null)
+				CommentThread = new Thread(PostCommentAsync);
+			
+			if(! CommentThread.IsAlive)
+			{
+				CommentThread.Start();
+			}
 		}
 		
 		protected virtual void PostCommentClicked2 (object sender, System.EventArgs e)
 		{
+
+			/*if(CommentThread == null)
+				CommentThread = new Thread(PostCommentAsync);
+			
+			if(! CommentThread.IsAlive)
+			{
+				CommentThread.Start();
+			}*/
 			if(activeQuery.PostComment(activeBug.id, commentEntryBox.Buffer.Text))
 			{
+				statusLabel.Text = "Comment posted";
 				SplatterCore.Instance.SaveState();
+				SyncTreeviewWithBugs();
 				DrawCommentsFromReport(activeBug);
+			}
+			else
+			{
+				statusLabel.Text = "Error posting comment";
 			}
 		}
 		

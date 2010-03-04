@@ -57,7 +57,7 @@ namespace BugzillaInterface
 			List<BugReport> results = new List<BugReport> ();
 			
 			Tracer trace = new Tracer();
-			//trace.Attach(bugProxy);
+			trace.Attach(bugProxy);
 			
 			GetBugsResponse result = bugProxy.SearchBugs (queryParameters);
 			Console.WriteLine ("Query finished with {0} results", result.bugs.Length);
@@ -171,7 +171,16 @@ namespace BugzillaInterface
 		{
 			Source = SplatterCore.Instance.Sources[SourceID];
 			try {
-				List<BugReport> results = Generator.GetQueryResults ();
+				List<BugReport> results;
+				
+				try
+				{
+					results = Generator.GetQueryResults ();
+				}
+				catch
+				{
+					return -1;
+				}
 				if(Bugs == null || BugIds == null)
 				{
 					BugIds = new List<int>();
@@ -241,7 +250,7 @@ namespace BugzillaInterface
 			Generator.SetSource (SplatterCore.Instance.Sources[this.SourceID]);
 			
 			Tracer trace = new Tracer();
-			trace.Attach(Generator.bugProxy);
+			//trace.Attach(Generator.bugProxy);
 			
 			XmlRpcStruct comResponse = Generator.bugProxy.GetComments (commentParameters);
 			Console.WriteLine ("Done!");
@@ -273,10 +282,7 @@ namespace BugzillaInterface
 						}
 						else
 						{
-							
 							int targetId = BugIds.IndexOf (target.bug_id);
-							Bugs[targetId].MarkUnread();
-							// no new comment
 						}
 						
 					}
