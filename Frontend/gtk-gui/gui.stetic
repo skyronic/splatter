@@ -66,10 +66,10 @@
             <property name="ButtonStyle">Default</property>
             <property name="IconSize">LargeToolbar</property>
             <node name="toolbar3" type="Toolbar">
+              <node type="Toolitem" action="fetchCommentsAction" />
               <node type="Toolitem" action="addAction" />
               <node type="Toolitem" action="refreshAction" />
               <node type="Toolitem" action="deleteAction" />
-              <node type="Toolitem" action="fetchCommentsAction" />
             </node>
           </widget>
           <packing>

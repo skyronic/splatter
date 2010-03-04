@@ -141,7 +141,13 @@ namespace Frontend
 				// Set the bug details
 				int row_id = 0;
 				
-				bugPropertyTable.Resize(9, 2);
+				
+				/*
+				 *
+				 * TODO: Change the number of rows as you add more properties to the table
+				 * 
+				 */
+				bugPropertyTable.Resize(10, 2);
 				
 				foreach (Widget child in bugPropertyTable.Children) {
 					bugPropertyTable.Remove(child);
@@ -156,6 +162,8 @@ namespace Frontend
 				StringValueToTable(bugPropertyTable, "Severity", target.severity, ref row_id);
 				StringValueToTable(bugPropertyTable, "Priority", target.priority, ref row_id);
 				StringValueToTable(bugPropertyTable, "Created", target.creation_time.ToString(), ref row_id);
+				StringValueToTable(bugPropertyTable, "Last Changed", target.last_change_time.ToString(), ref row_id);
+				
 				
 				// Mark bug as having no unread comments
 				target.BugChangedFlag = false;
@@ -229,6 +237,9 @@ namespace Frontend
 
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
+			// sync with disc
+			Console.WriteLine ("Flushing changes to disk");
+			SplatterCore.Instance.SaveState();
 			Application.Quit ();
 			a.RetVal = true;
 		}
@@ -271,7 +282,7 @@ namespace Frontend
 			// Clear all the items in the store
 			bugStore.Clear();			
 			
-			Gdk.Pixbuf unreadMessageIcon = IconFactory.LookupDefault(Stock.Ok).RenderIcon(this.Style, TextDirection.Ltr, StateType.Active, IconSize.Menu, null, null);
+			Gdk.Pixbuf unreadMessageIcon = IconFactory.LookupDefault(Stock.Info).RenderIcon(this.Style, TextDirection.Ltr, StateType.Active, IconSize.Menu, null, null);
 			IconSource sdf =  new IconSource();
 			
 			// Iterate over all the queries and display them
